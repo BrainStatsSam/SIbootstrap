@@ -1,0 +1,20 @@
+0.01 mask value on GM mean...  GM_mean ... before smoothing.
+
+THEN smooth, *AND* then mask.
+
+
+See $FSLDIR/bin/ for 
+
+fslvbm_3_proc*
+
+
+
+This is the base path for all the subjects: 
+
+/vols/Scratch/ukbiobank/FMRIB/IMAGING/data3/SubjectsAll/
+
+VBM: T1_GM_to_template_GM_mod.nii.gz
+
+/vols/Scratch/ukbiobank/FMRIB/IMAGING/data3/subjects/2002726/T1/T1_vbm
+
+/vols/Scratch/ukbiobank/nichols/subjs_vbm.txt

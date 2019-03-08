@@ -1,0 +1,7 @@
+To convert the tiff images to pdfs run:
+
+find ./ -iname "*.tif" -exec convert {} {}.pdf \;
+
+To change .tif.pdf to .pdf run:
+
+mmv \*.tif.pdf \#1.pdf
