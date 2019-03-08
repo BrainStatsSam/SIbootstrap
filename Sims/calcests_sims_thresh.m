@@ -130,7 +130,7 @@ subject_mask = ones(stdsize);
 nentries_stored = 0;
 nentries_stored_is = 0;
 
-load(jgit('/data/greyplover/not-backed-up/oxwasp/oxwasp16/davenpor/SIbootstrap/Sims/store_thresh.mat'))
+load('/data/greyplover/not-backed-up/oxwasp/oxwasp16/davenpor/SIbootstrap/Sims/store_thresh.mat')
 try
     FWHM_index = find(0:0.5:6 == FWHM);
 catch
