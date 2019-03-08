@@ -2,7 +2,7 @@ FWHM_set = num2cell(0:0.5:6);
 nsubj = 20;
 std_dev = 1;
 B = 1;
-type = 'tstat';
+type = 'R2';
 
 parfor J = 1:6
     FWHM = FWHM_set{J};
