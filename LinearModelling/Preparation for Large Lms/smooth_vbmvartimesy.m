@@ -1,7 +1,9 @@
 %VBM multiplying variables with the images.
 
+%% Load in Age and Sex Variables
 Sex = bbvars('Sex');
 Age = bbvars('Age');
+
 nsubj = length(Sex);
 subs4mean = loaddata('subs4mean');
 vbm_maskNAN = imgload('vbm_maskNAN');

@@ -1,79 +1,44 @@
 function [ R2est, naiveest, top_lm_indices, trueval] = glmbias_thresh_multivar( local, B, X, data, true_R2, mask, contrast, threshold, use_inter)
-% warning('This should just be true_R2 rather than true_R2.^2, I''ve left it like this for now in case it messes with the simulations that are running atm!')   
-% GLMBIAS_THRESH_MULTIVAR takes in glm data and returns bootstrap corrected
-% esimates of the partial R^2.
+% GLMBIAS_THRESH_MULTIVAR( local, B, X, data, true_R2, mask, contrast, threshold, use_inter)
+% takes in glm data and returns bootstrap corrected esimates of the partial R^2.
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % local     0/1. 1 means that the value at the maximum of the bootstrap is
 %           compared to the value of the mean at that voxel. 0 means it is 
 %           compared to the maximum of the mean. DEFAULT: 1
-% top       a number less than the total number of voxels in each image
-%           that denotes the number of top values to consider. Eg top = 1,
-%           means that the bias is just calculated for the maximum. top = 2
-%           means that the bias is calculated for the top two values etc.
-%           DEFAULT: 20
-% B         the number of bootstrap iterations to do. DEFAULT: 50
-% xvar      An nsubj by 1 column vector with the varaible (nsubj is the 
-%           number of subjects).    
+% B         the number of bootstrap iterations to do. DEFAULT: 1000.
+% X         the design matrix.
 % data      a 2d matrix that is the number of subjects by the number of
 %           voxels.
-% true_mean a 3d array giving the true signal at each voxel.
+% true_R2   a 3d array giving the true R2 at each voxel.
 % mask      the mask over which to do the inference. Usually we take it to
 %           be intersection of the subject masks. If this is not specified
-%           the MNI mask of the brain is used.
+%           the mask is just taken to be 1 everywhere.
+% contrast  the contrast vector to use in the linear model
+% threshold the threshold to use, RFT is implemented if this is omitted. 
+% use_inter 0/1, specifes whether to use an intercept or not. Default = 1.
 %--------------------------------------------------------------------------
 % OUTPUT
-% meanest       a 1xtop vector of the estimates of the mean for the top top
-%               values.
-% naiveest      the estimate of the mean using the naive method which
-%               doesn't correct for the bias.
-% trueatlocs    the true values at the locations of the local maxima of the
-%               estimated mean.
-% top_lm_indicies the indicies of the local maxima of the estimated mean.
-%
-% OLD OUTPUT:
-% diff2truemean a 1xtop vector giving the differences to the true mean
-%               for the top values.
-% diffwas       a 1xtop vector giving the values of what the biases were of
-%               the empirical mean relative to the true mean.
+% R2est         corrected R2 estimates at significant local maxima.
+% naiveest      circular R2 estimates at significant local maxima.
+% top_lm_indices the indices of the local maxima of the estimated R2
+%               above the threshold
+% trueval       true R2 values at significant local maxima.
 %--------------------------------------------------------------------------
 % EXAMPLES
-% Random data generation:
-% [ meanest, diff2truemean ] = lmbias();
-%
-% Using the global option:
-% data = zeros([20, 91*109*91]);
-% for I = 1:20
-%     img = readimg(I);
-%     data(I,:) = img(:);
-% end 
-% [ meanest, naiveest, trueval, top_lm_indices ] = lmbias(0, 20, 10, data);
-% diff2truemean
-%
-% %Giving in data:
-% data = zeros([20, 91*109*91]);
-% for I = 1:20
-%     img = readimg(I);
-%     data(I,:) = img(:);
-% end 
-% [ meanest, naiveest, trueval, top_lm_indices ] = lmbias(1, 20, 10, data)
-% diff2truemean
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport
 if nargin < 1
     local = 1;
 end
 if nargin < 2
-    B = 50;
+    B = 1000;
 end
 if nargin < 8
     threshold =  NaN;
 end
 if nargin < 9
     use_inter = 1;
-end
-if nargin < 10
-    dominus = 0;
 end
 
 s = size(true_R2);
@@ -86,6 +51,9 @@ if s(1) ~= 1
 end
 
 [nSubj, nVox] = size(data);
+if nargin < 5
+    mask = ones(1, nVox);
+end
 out = MVlm_multivar( X, data, contrast, use_inter );
 est_std_residuals = out.std_residuals;
 est_fitted = out.fitted;
@@ -121,7 +89,7 @@ for b = 1:B
     boot_data = est_fitted + boot_residuals;
     out = MVlm_multivar( X, boot_data, contrast, use_inter );
     boot_R2 = out.R2;
-    lm_indices = lmindices(boot_R2, top, mask); %NOTE MASKING OUT NANS FOR NOW!!
+    lm_indices = lmindices(boot_R2, top, mask);
     
     if local == 1
         R2_bias = R2_bias + boot_R2(lm_indices) - est_R2(lm_indices);
@@ -136,9 +104,7 @@ naiveest = est_R2(top_lm_indices);
 
 if isnan(true_R2)
     trueval = NaN;
-else
-    true_R2 = true_R2.^2; 
-    warning('This should just be true_R2 rather than true_R2.^2, I''ve left it like this for now in case it messes with the simulations that are running atm!')
+else 
     trueval = true_R2(top_lm_indices);
 end
 

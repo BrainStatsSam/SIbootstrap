@@ -1,32 +1,30 @@
 function [ R2_est, true, top_lm_indices]  = glmindepsplit_thresh_multivar( X, data, true_R2, mask, contrast, threshold, use_inter )
-% TINDEPSPLIT calculates a 50:50 split of the data and uses the first half
-% to find the locations of the local maxima and the second half to find the 
-% values observed there. Everything here is done in terms of t-testing.
+% GLMINDEPSPLIT_THRESH_MULTIVAR( X, data, true_R2, mask, contrast, threshold, use_inter )
+% calculates a 50:50 split of the data and uses the first half to find the 
+% locations of the local maxima and the second half to find the values 
+% observed there.
 %--------------------------------------------------------------------------
 % ARGUMENTS
-% which_subj    specifies which subjects to test on.
-% top           specifies the top values to calculate the difference in
-%               bias for.
-% true_value    the underlying mos signal, note that this needs to be
-%               adjusted (and is in the code below) to account for sample
-%               size.
+% X         the design matrix.
+% data      a 2d matrix that is the number of subjects by the number of
+%           voxels.
+% true_R2   a 3d array giving the true R2 at each voxel.
+% mask      the mask over which to do the inference. Usually we take it to
+%           be intersection of the subject masks. If this is not specified
+%           the MNI mask of the brain is used.
+% contrast  the contrast vector to use in the linear model
+% threshold the threshold to use, RFT is implemented if this is omitted. 
+% use_inter 0/1, specifes whether to use an intercept or not. Default = 1.
 %--------------------------------------------------------------------------
 % OUTPUT
-% 
+% R2est         corrected R2 estimates at significant local maxima.
+% true          true R2 values at significant local maxima.
+% top_lm_indicies the indicies of the local maxima of the estimated R2
+%               above the threshold
 %--------------------------------------------------------------------------
 % EXAMPLES
-% ImgMean = imgload('mos');
-% nSubj = 40;
-% nVox = 91*109*91;
-% data = zeros([nSubj, nVox]);
-% for I = 1:nSubj
-%     img = readimg(I);
-%     data(I,:) = img(:);
-% end
-% tindepsplit( data, 20, ImgMean);
 %--------------------------------------------------------------------------
-% SEE ALSO
-% 
+% AUTHOR: Sam Davenport
 if nargin < 4
     mask = imgload('MNImask');
 end
@@ -59,7 +57,6 @@ end
 
 mask_of_greater_than_threshold = Fstat > threshold;
 mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, [91,109,91]).*mask;
-% top = numOfConComps(mask_of_greater_than_threshold, 0.5, 3);
 [top_lm_indices,top] = lmindices(Fstat,Inf, mask_of_greater_than_threshold);
 
 if top == 0

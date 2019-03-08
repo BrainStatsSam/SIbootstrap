@@ -10,13 +10,7 @@ function calcests_sims_thresh(type, groupsize, Jmax, FWHM, std_dev, B, six32)
 %           Error checking for this is included.
 % type      Either mean, tstat or smoothtstat or glmsex
 %--------------------------------------------------------------------------
-% OUTPUT
-% A csv file with the the results.
-%--------------------------------------------------------------------------
-% EXAMPLES
-%--------------------------------------------------------------------------
-% SEE ALSO
-%
+% AUTHOR: Sam Davenport
 if nargin < 1
     type = 0; %Meaning that the normal mean is targetted not the t-img.
 end

@@ -1,97 +1,58 @@
-function [ mos_est, naiveest, trueval, top_lm_indices ] = tbias_thresh( local, B, data, mask, threshold, true_mos, smooth_var )
-% tbias takes in data and estimates the bias at the local maxima of the 
-% t-statistic via bootstrapping, working with reshaped data.
+function [ CD_est, naiveest, trueval, top_lm_indices ] = tbias_thresh( local, B, data, true_CD, mask, threshold )
+% TBIAS_THRESH( local, B, data, true_CD, mask, threshold ) takes in data 
+% and estimates the bias in Cohen's d at the local maxima of the t-statistic 
+% via  bootstrapping.
 %--------------------------------------------------------------------------
-% ARGUMENTS
 % local     0/1. 1 means that the value at the maximum of the bootstrap is
 %           compared to the value of the mean at that voxel. 0 means it is 
 %           compared to the maximum of the mean. DEFAULT: 1
-% top       a number less than the total number of voxels in each image
-%           that denotes the number of top values to consider. Eg top = 1,
-%           means that the bias is just calculated for the maximum. top = 2
-%           means that the bias is calculated for the top two values etc.
-%           DEFAULT: 20
-% B         the number of bootstrap iterations to do. DEFAULT: 50
+% B         the number of bootstrap iterations to do. DEFAULT: 1000.
+% X         the design matrix.
 % data      a 2d matrix that is the number of subjects by the number of
 %           voxels.
-% true_mos  a 3d array giving the true mos (mean over std-deviation) at each voxel.
-% smooth_var 0/1. Under 1 the variance estimate is smoothed additionally.
+% true_CD   a 3d array giving the true Cohen's d at each voxel.
 % mask      the mask over which to do the inference. Usually we take it to
 %           be intersection of the subject masks. If this is not specified
-%           the MNI mask of the brain is used.
+%           the mask is just taken to be 1 everywhere.
+% threshold the threshold to use, RFT is implemented if this is omitted.
 %--------------------------------------------------------------------------
 % OUTPUT
-% meanest       a 1xtop vector of the estimates of the mean for the top top
-%               values.
-% naiveest      the estimate of the mean using the naive method which
-%               doesn't correct for the bias.
-% trueatlocs    the true values at the locations of the local maxima of the
-%               estimated mean.
-% top_lm_indicies the indicies of the local maxima of the estimated mean.
-%
-% OLD OUTPUT:
-% diff2truemean a 1xtop vector giving the differences to the true mean
-%               for the top values.
-% diffwas       a 1xtop vector giving the values of what the biases were of
-%               the empirical mean relative to the true mean.
+% CD_est       corrected Cohen's d estimates at significant local maxima 
+%              of the t-statistic.
+% naiveest      circular Cohen's d estimates at significant local maxima of 
+%               the t-statistic.
+% top_lm_indices the indices of the local maxima of the t-statistic.
+%               above the threshold
+% trueval       true mean values at significant local maxima of the 
+%               t-statistic.
 %--------------------------------------------------------------------------
 % EXAMPLES
-% Default implementation (uses the first 20 subjects):
-% [ meanest, diff2truemean ] = tbias();
-%
-% Using the global option:
-% data = zeros([20, 91*109*91]);
-% for I = 1:20
-%     img = readimg(I);
-%     data(I,:) = img(:);
-% end 
-% [ meanest, naiveest, trueval, top_lm_indices ] = tbias(0, 20, 10, data);
-% diff2truemean
-%
-% %Giving in data:
-% data = getdata(1:20);
-% [ meanest, naiveest, trueval, top_lm_indices ] = tbias(1, 20, 10, data)
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport
 if nargin < 1
     local = 1;
 end
 if nargin < 2
-    B = 10;
-end
-if nargin < 3
-    global TYPE
-    if strcmp(TYPE,'jala')
-        data = zeros([20, 91*109*91]);
-        for I = 1:20
-            img = readimg(I);
-            data(I,:) = img(:);
-        end
-    else
-        data = datagen(4,20); %So that different data is used each time.
-    end
-    fprintf('Done with data generation\n')
+    B = 1000;
 end
 if nargin < 4
-    mask = imgload('MNImask');
-end
-if nargin < 5
-    threshold = NaN;
+    true_CD = NaN;
 end
 if nargin < 6
-    smooth_var = 0;
-end
-if nargin < 7
-    true_mos = NaN;
+    threshold = NaN;
 end
 
-s = size(true_mos);
+
+s = size(true_CD);
 if s(1) ~= 1
     error('The true value vector must be a row vector')
 end
 
-[nSubj, ~] = size(data);
-[~, ~, est_mos_vec] = meanmos(data, smooth_var);
+[nSubj, nVox] = size(data);
+if nargin < 5
+    mask = ones(1, nVox);
+end
+[~, ~, est_CD_vec] = meanmos(data, smooth_var);
 
 if isnan(threshold)
     fwhm_est = est_smooth(reshape(data', [91,109,91, nSubj]));
@@ -99,17 +60,17 @@ if isnan(threshold)
     threshold = spm_uc( 0.05, [1,(nSubj-1)], 'T', resel_vec, 1 );
 end
 
-mask_of_greater_than_threshold = (sqrt(nSubj)*est_mos_vec > threshold);
+mask_of_greater_than_threshold = (sqrt(nSubj)*est_CD_vec > threshold);
 mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, [91,109,91]).*mask;
 
 % mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, [91,109,91]).*mask;
 % top = numOfConComps(mask_of_greater_than_threshold, 0.5, 3);
 % top_lm_indices = lmindices(est_mos_vec,top, mask);
 
-[top_lm_indices, top] = lmindices(est_mos_vec, Inf, mask_of_greater_than_threshold);
+[top_lm_indices, top] = lmindices(est_CD_vec, Inf, mask_of_greater_than_threshold);
 
 if top == 0
-    mos_est = NaN;
+    CD_est = NaN;
     naiveest = NaN;
     trueval = NaN;
     return
@@ -120,35 +81,27 @@ for b = 1:B
     b
     sample_index = randsample(nSubj,nSubj,1);
     temp_data = data(sample_index, :);
-    
-%     mean_map = mean(temp_data,1);
-%     sq_mean_map = mean(temp_data.^2);
-%     var_map = (nSubj/(nSubj-1))*(sq_mean_map - (mean_map.^2));
-%     sd_map = sqrt(var_map);
-%     mos_map = mean_map./sd_map;
-%     t_map = sqrt(nSubj)*mean_map./std_map;
 
-    [~, ~, mos_map] = meanmos(temp_data, smooth_var);
+    [~, ~, CD_map] = meanmos(temp_data);
     
-    lm_indices = lmindices(mos_map, top, mask);
+    lm_indices = lmindices(CD_map, top, mask);
     if local == 1
-        bias = bias + mos_map(lm_indices) - est_mos_vec(lm_indices);
+        bias = bias + CD_map(lm_indices) - est_CD_vec(lm_indices);
     else
-        bias = bias + mos_map(lm_indices) - est_mos_vec(top_lm_indices);
+        bias = bias + CD_map(lm_indices) - est_CD_vec(top_lm_indices);
     end
 end
 
 bias = bias/B;
-mos_est = est_mos_vec(top_lm_indices) - bias;
+CD_est = est_CD_vec(top_lm_indices) - bias;
+CD_est = CD_est/nctcorrection(nSubj;
 
-naiveest = est_mos_vec(top_lm_indices);
-warning('You need to divide by the nctcorrection')
-% naiveest = mos_est_vec(top_lm_indices)/nctcorrection(nSubj); %Correction for the bias in t.
+naiveest = est_CD_vec(top_lm_indices)/nctcorrection(nSubj);
 
-if isnan(true_mos);
+if isnan(true_CD);
     trueval = NaN;
 else
-    trueval = true_mos(top_lm_indices);
+    trueval = true_CD(top_lm_indices);
 end
 
 end

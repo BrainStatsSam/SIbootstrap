@@ -1,5 +1,6 @@
 %Running the VBM Age Model
 
+%% Load in Age and Sex Variables
 Age = bbvars('Age');
 Sex = bbvars('Sex');
 nsubj = length(Age);
@@ -20,9 +21,8 @@ agesexy = imgload('smooth_vbmagesexy');
 XtX = [nsubj, sum(Age), sum(Sex); sum(Age), sum(Age.^2), sum(Sex.*Age); sum(Sex), sum(Sex.*Age), sum(Sex.^2) ];
 XtXinv = inv(XtX);
 
-vbm_mask = imgload('vbm_mask001');
+vbm_mask = imgload('vbm_mask001'); %Load in the VBM_mask.
 
-%Note you don't have to store everything as X^TX is symmetric!
 for I = 1:91
     disp(I)
     for J = 1:109
@@ -85,18 +85,11 @@ imgsave(tage, 'smooth_vbm_agesexlm_tage')
 imgsave(tsex, 'smooth_vbm_agesexlm_tage')
 
 %%
-% R2age = F2R(tage.^2,nsubj,3);
-% imgsave(R2age,'smooth_vbm_agesexlm_R2age')
-% 
-% R2sex = F2R(tsex.^2,nsubj,3);
-% imgsave(R2sex,'smooth_vbm_agesexlm_R2sex')
-
-%%
 nsubj = 4000;
 tage = imgload('smooth_vbm_agesexlm_tage');
 % tsex = imgload('smooth_vbm_agesexlm_tsex');
 
-[R2age,f2age] = F2R(tage.^2,nsubj,3, 2); %Note that p-p_0 = 1 here, so R2age computed using the new F2R function is actually unchanged!
+[R2age,f2age] = F2R(tage.^2,nsubj,3, 2); %Note that p-p_0 = 1 here.
 imgsave(R2age,'smooth_vbm_agesexlm_R2age',CSI);
 imgsave(f2age,'smooth_vbm_agesexlm_f2age',CSI);
 
@@ -106,20 +99,3 @@ R2age = imgload('smooth_vbm_agesexlm_R2age');
 Rage = sqrt(R2age).*sign(tage);
 
 imgsave(Rage,'smooth_vbm_agesexlm_Rage');
-
-% %%
-% nsubj = 4000;
-% tage = imgload('smooth_vbm_agesexlm_tage');
-% % tsex = imgload('smooth_vbm_agesexlm_tsex');
-% 
-% [R2agenew,f2agenew] = F2R(tage.^2,nsubj,3, 2);
-% imgsave(R2agenew,'smooth_vbm_agesexlm_R2agenew',CSI);
-% imgsave(f2agenew,'smooth_vbm_agesexlm_f2agenew',CSI);
-% 
-% [R2ageold,~] = F2R(tage.^2,nsubj,3, 1);
-% imgsave(R2ageold,'smooth_vbm_agesexlm_R2ageold',CSI);
-
-% [R2sex,f2sex] = F2R(tsex.^2,nsubj,3, 2);
-% imgsave(R2sex,'smooth_vbm_agesexlm_R2sex',CSI);
-% imgsave(f2sex,'smooth_vbm_agesexlm_f2sex',CSI);
-

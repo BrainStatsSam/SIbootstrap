@@ -3,7 +3,6 @@ function [ coeffs, sigma2, std_residuals, fitted, R2, tvec, residuals ] = MVlm( 
 %   and gives out the result. 
 %--------------------------------------------------------------------------
 % ARGUMENTS
-%%% Do you really mean a column vector? Var would seem to be any dim
 % var       An nsubj by 1 column vector with the varaible (nsubj is the 
 %           number of subjects).
 % data      An nsubj by nvox array where nvox is the number of voxels. Note
