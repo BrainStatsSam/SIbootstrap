@@ -1,11 +1,11 @@
-function [ R2est, naiveest, top_lm_indices, trueval] = glmbias_thresh_multivar( local, B, X, data, true_R2, mask, contrast, threshold, use_inter)
+function [ R2est, naiveest, top_lm_indices, trueval] = glmbias_thresh_multivar( local, B, X, data, true_R2, mask, contrast, threshold, use_inter, use_para)
 % GLMBIAS_THRESH_MULTIVAR( local, B, X, data, true_R2, mask, contrast, threshold, use_inter)
 % takes in glm data and returns bootstrap corrected esimates of the partial R^2.
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % local     0/1. 1 means that the value at the maximum of the bootstrap is
 %           compared to the value of the mean at that voxel. 0 means it is 
-%           compared to the maximum of the mean. DEFAULT: 1
+%           compared to the maximum of the mean. DEFAULT: 1.
 % B         the number of bootstrap iterations to do. DEFAULT: 1000.
 % X         the design matrix.
 % data      a 2d matrix that is the number of subjects by the number of
@@ -17,6 +17,8 @@ function [ R2est, naiveest, top_lm_indices, trueval] = glmbias_thresh_multivar( 
 % contrast  the contrast vector to use in the linear model
 % threshold the threshold to use, RFT is implemented if this is omitted. 
 % use_inter 0/1, specifes whether to use an intercept or not. Default = 1.
+% use_para  0/1, specifies whether to parallelize the bootstrap part.
+%           Default is 0 ie not to.
 %--------------------------------------------------------------------------
 % OUTPUT
 % R2est         corrected R2 estimates at significant local maxima.
@@ -39,6 +41,9 @@ if nargin < 8
 end
 if nargin < 9
     use_inter = 1;
+end
+if nargin < 10
+    use_para = 0;
 end
 
 s = size(true_R2);
@@ -83,18 +88,37 @@ end
 
 R2_bias = 0;
 
-for b = 1:B
-    sample_index = randsample(nSubj,nSubj,1);
-    boot_residuals = est_std_residuals(sample_index, :);
-    boot_data = est_fitted + boot_residuals;
-    out = MVlm_multivar( X, boot_data, contrast, use_inter );
-    boot_R2 = out.R2;
-    lm_indices = lmindices(boot_R2, top, mask);
-    
-    if local == 1
-        R2_bias = R2_bias + boot_R2(lm_indices) - est_R2(lm_indices);
-    else
-        R2_bias = R2_bias + boot_R2(lm_indices) - est_R2(top_lm_indices);
+if use_para
+    R2_bias_vec = zeros(1, B);
+    parfor b = 1:B
+        sample_index = randsample(nSubj,nSubj,1);
+        boot_residuals = est_std_residuals(sample_index, :);
+        boot_data = est_fitted + boot_residuals;
+        out = MVlm_multivar( X, boot_data, contrast, use_inter );
+        boot_R2 = out.R2;
+        lm_indices = lmindices(boot_R2, top, mask);
+        
+        if local == 1
+            R2_bias_vec(b) =  boot_R2(lm_indices) - est_R2(lm_indices);
+        else
+            R2_bias_vec(b) = R2_bias + boot_R2(lm_indices) - est_R2(top_lm_indices);
+        end
+    end
+    R2_bias = sum(R2_bias_vec);
+else
+    for b = 1:B
+        sample_index = randsample(nSubj,nSubj,1);
+        boot_residuals = est_std_residuals(sample_index, :);
+        boot_data = est_fitted + boot_residuals;
+        out = MVlm_multivar( X, boot_data, contrast, use_inter );
+        boot_R2 = out.R2;
+        lm_indices = lmindices(boot_R2, top, mask);
+        
+        if local == 1
+            R2_bias = R2_bias + boot_R2(lm_indices) - est_R2(lm_indices);
+        else
+            R2_bias = R2_bias + boot_R2(lm_indices) - est_R2(top_lm_indices);
+        end
     end
 end
 

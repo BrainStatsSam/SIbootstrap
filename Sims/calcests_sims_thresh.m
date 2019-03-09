@@ -1,4 +1,4 @@
-function calcests_sims_thresh(type, groupsize, Jmax, FWHM, std_dev, B, six32)
+function calcests_sims_thresh(type, groupsize, Jmax, FWHM, std_dev, B, use_para, six32 )
 % CALCESTS_SIMS_THRESH(type, groupsize, Jmax, FWHM, std_dev, B, six32)
 % returns the estimates obtained under bootstrapping.
 %--------------------------------------------------------------------------
@@ -9,6 +9,8 @@ function calcests_sims_thresh(type, groupsize, Jmax, FWHM, std_dev, B, six32)
 %           course contraints on this because of the amount of data.
 %           Error checking for this is included.
 % type      Either mean, tstat or smoothtstat or glmsex
+% use_para  0/1, specifies whether to parallelize the bootstrap part.
+%           Default is 0 ie not to.
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport
 if nargin < 1
@@ -30,8 +32,13 @@ if nargin < 6
     B = 50;
 end
 if nargin < 7
+    use_para = 0;
+end
+if nargin < 8
     six32 = 0;
 end
+
+
 global stdsize
 % global SimsDir
 
@@ -98,7 +105,6 @@ if type == 1
 elseif type == 2
     filestart = strcat('R2Thresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
 end
-
 if six32
     filestart = strcat('632', filestart);
 end
@@ -182,7 +188,7 @@ for J = Jcurrent:(Jmax-1)
     elseif type == 1
         [ est , estwas, trueval, top_lm_indices ] = tbias_thresh(1, B, data, subject_mask, threshold, Sig, smooth_var);
     elseif type == 2
-        [ est, estwas, top_lm_indices, trueval] = glmbias_thresh_multivar( 1, B, x, data, true_R2, subject_mask, contrast, threshold);
+        [ est, estwas, top_lm_indices, trueval] = glmbias_thresh_multivar( 1, B, x, data, true_R2, subject_mask, contrast, threshold, 1, use_para);
     end
         
     top = length(est);
