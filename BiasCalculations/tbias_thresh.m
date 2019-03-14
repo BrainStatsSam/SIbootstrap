@@ -94,7 +94,7 @@ end
 
 bias = bias/B;
 CD_est = est_CD_vec(top_lm_indices) - bias;
-CD_est = CD_est/nctcorrection(nSubj;
+CD_est = CD_est/nctcorrection(nSubj);
 
 naiveest = est_CD_vec(top_lm_indices)/nctcorrection(nSubj);
 
