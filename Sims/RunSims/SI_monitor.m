@@ -1,5 +1,5 @@
 types = {'tstat', 't4lm', 'R2'};
-types = {'tstat'}
+types = {'R2'}
 for type = types
     disp(type{1})
     stored = zeros(2*4,3);
