@@ -10,7 +10,7 @@ if strfind(pwd, 'greyplover')
 elseif strfind(pwd, 'greyheron')
     server_dir = '/data/greyheron/not-backed-up/oxwasp/oxwasp16/davenpor/';
 elseif strfind(pwd, 'greypartridge')
-    server_dir = '/data/greypartridge'/not-backed-up/oxwasp/oxwasp16/davenpor/';
+    server_dir = '/data/greypartridge/not-backed-up/oxwasp/oxwasp16/davenpor/';
 elseif strfind(pwd, 'greyostrich')
     server_dir = '/data/greyostrich/not-backed-up/oxwasp/oxwasp16/davenpor/';
 end
