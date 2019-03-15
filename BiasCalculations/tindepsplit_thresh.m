@@ -60,6 +60,10 @@ if isnan(threshold)
     resel_vec = spm_resels_vol(mask, fwhm_est)';
     threshold = spm_uc( 0.05, [1,(nsubjover2-1)], 'T', resel_vec, 1 );
 end
+
+size(nsubjover2)
+size(max_CD)
+size(threshold)
 mask_of_greater_than_threshold = sqrt(nsubjover2)*max_CD > threshold;
 mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, [91,109,91]).*mask;
 
