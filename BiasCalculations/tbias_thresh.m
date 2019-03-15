@@ -52,7 +52,7 @@ end
 if nargin < 5
     mask = ones(1, nVox);
 end
-[~, ~, est_CD_vec] = meanmos(data, smooth_var);
+[~, ~, est_CD_vec] = meanmos(data);
 
 if isnan(threshold)
     fwhm_est = est_smooth(reshape(data', [91,109,91, nSubj]));
