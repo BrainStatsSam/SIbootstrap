@@ -1,4 +1,4 @@
-function [ meanest, naiveest, trueval, top_lm_indices ] = t4lmbias( local, B, data, true_mean, mask, threshold ) 
+function [ meanest, naiveest, trueval, top_lm_indices ] = t4lmbias( local, B, data, true_mean, mask, threshold, use_para) 
 % T4LMBIAS( local, B, data, mask, threshold, true_mean ) takes in data and 
 % estimates the bias in the mean at local maxima of the t statistic via 
 % bootstrapping.
@@ -74,18 +74,37 @@ if top == 0
 end
 
 bias = 0;
-for b = 1:B
-    b
-    sample_index = randsample(nSubj,nSubj,1);
-    temp_data = data(sample_index, :);
-
-    [mean_map, ~, CD_map] = calcCD(temp_data, 0);
-    
-    lm_indices = lmindices(CD_map, top, mask);
-    if local == 1
-        bias = bias + mean_map(lm_indices) - est_mean_vec(lm_indices);
-    else
-        bias = bias + mean_map(lm_indices) - est_mean_vec(top_lm_indices);
+if use_para
+    lm_bias_vec = zeros(1, B);
+    parfor b = 1:B
+        b
+        sample_index = randsample(nSubj,nSubj,1);
+        temp_data = data(sample_index, :);
+        
+        [mean_map, ~, CD_map] = calcCD(temp_data, 0);
+        
+        lm_indices = lmindices(CD_map, top, mask);
+        if local == 1
+            lm_bias_vec(b) = mean_map(lm_indices) - est_mean_vec(lm_indices);
+        else
+            lm_bias_vec(b) = mean_map(lm_indices) - est_mean_vec(top_lm_indices);
+        end
+    end
+    bias = sum(lm_bias_vec);
+else
+    for b = 1:B
+        b
+        sample_index = randsample(nSubj,nSubj,1);
+        temp_data = data(sample_index, :);
+        
+        [mean_map, ~, CD_map] = calcCD(temp_data, 0);
+        
+        lm_indices = lmindices(CD_map, top, mask);
+        if local == 1
+            bias = bias + mean_map(lm_indices) - est_mean_vec(lm_indices);
+        else
+            bias = bias + mean_map(lm_indices) - est_mean_vec(top_lm_indices);
+        end
     end
 end
 

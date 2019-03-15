@@ -101,7 +101,7 @@ if use_para
         if local == 1
             R2_bias_vec(b) =  boot_R2(lm_indices) - est_R2(lm_indices);
         else
-            R2_bias_vec(b) = R2_bias + boot_R2(lm_indices) - est_R2(top_lm_indices);
+            R2_bias_vec(b) = boot_R2(lm_indices) - est_R2(top_lm_indices);
         end
     end
     R2_bias = sum(R2_bias_vec);

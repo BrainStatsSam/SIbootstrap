@@ -1,4 +1,4 @@
-function calcests_sims_thresh2(type, groupsize, Jmax, FWHM, std_dev, B, six32)
+function calcests_sims_thresh2(type, groupsize, Jmax, FWHM, std_dev, B, use_para, six32)
 % CALCESTS_SIMS_THRESH(type, groupsize, Jmax, FWHM, std_dev, B, six32)
 % returns the estimates obtained under bootstrapping.
 %--------------------------------------------------------------------------
@@ -36,6 +36,9 @@ if nargin < 6
     B = 50;
 end
 if nargin < 7
+    use_para = 0;
+end
+if nargin < 8
     six32 = 0;
 end
 global stdsize
@@ -186,11 +189,11 @@ for J = Jcurrent:(Jmax-1)
         [ est , estwas, trueval, top_lm_indices ] = t4lmbias(1, B, data, Sig, subject_mask, threshold);
     elseif type == 0
         threshold = 2;
-        [ est , estwas, trueval, top_lm_indices ] = lmbias_thresh(1, B, data, Sig, subject_mask, threshold);
+        [ est , estwas, trueval, top_lm_indices ] = lmbias_thresh(1, B, data, Sig, subject_mask, threshold, use_para);
     elseif type == 1
         [ est , estwas, trueval, top_lm_indices ] = tbias_thresh(1, B, data, Sig, subject_mask, threshold);
     elseif type == 2
-        [ est, estwas, top_lm_indices, trueval] = glmbias_thresh_multivar( 1, B, x, data, true_R2, subject_mask, contrast, threshold);
+        [ est, estwas, top_lm_indices, trueval] = glmbias_thresh_multivar( 1, B, x, data, true_R2, subject_mask, contrast, threshold, 1, use_para);
     end
         
     top = length(est);
@@ -205,7 +208,6 @@ for J = Jcurrent:(Jmax-1)
     locmaxindices(where2store) = top_lm_indices;
     
     if type == -1
-        smooth_var = 0;
         [ est, trueval, top_lm_indices ] = tindepsplit_thresh( data, reshape3D(Sig), subject_mask, threshold_is, 1);
     elseif type == 0
         threshold_is = 2;
