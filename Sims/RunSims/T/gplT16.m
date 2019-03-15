@@ -1,6 +1,6 @@
-nsubj = 60;
+nsubj = 10;
 std_dev = 1;
-B = 2;
+B = 100;
 type = 'tstat';
 
 FWHM = 6;
