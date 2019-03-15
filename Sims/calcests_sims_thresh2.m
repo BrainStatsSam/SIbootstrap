@@ -186,10 +186,10 @@ for J = Jcurrent:(Jmax-1)
     end
     
     if type == -1
-        [ est , estwas, trueval, top_lm_indices ] = t4lmbias(1, B, data, Sig, subject_mask, threshold);
+        [ est , estwas, trueval, top_lm_indices ] = t4lmbias(1, B, data, Sig, subject_mask, threshold, use_para);
     elseif type == 0
         threshold = 2;
-        [ est , estwas, trueval, top_lm_indices ] = lmbias_thresh(1, B, data, Sig, subject_mask, threshold, use_para);
+        [ est , estwas, trueval, top_lm_indices ] = lmbias_thresh(1, B, data, Sig, subject_mask, threshold);
     elseif type == 1
         [ est , estwas, trueval, top_lm_indices ] = tbias_thresh(1, B, data, Sig, subject_mask, threshold);
     elseif type == 2
