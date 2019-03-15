@@ -188,6 +188,7 @@ for J = Jcurrent:(Jmax-1)
         threshold = 2;
         [ est , estwas, trueval, top_lm_indices ] = lmbias_thresh(1, B, data, Sig, subject_mask, threshold);
     elseif type == 1
+        a = 5
         [ est , estwas, trueval, top_lm_indices ] = tbias_thresh(1, B, data, Sig, subject_mask, threshold);
     elseif type == 2
         [ est, estwas, top_lm_indices, trueval] = glmbias_thresh_multivar( 1, B, x, data, true_R2, subject_mask, contrast, threshold);

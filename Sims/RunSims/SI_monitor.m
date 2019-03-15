@@ -1,5 +1,5 @@
 types = {'tstat', 't4lm', 'R2'};
-types = {'R2'};
+types = {'tstat'};
 
 for type = types
     disp(type{1})
