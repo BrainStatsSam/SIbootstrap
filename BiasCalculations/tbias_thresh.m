@@ -78,7 +78,7 @@ end
 
 bias = 0;
 for b = 1:B
-    b
+    idsp(b)
     sample_index = randsample(nSubj,nSubj,1);
     temp_data = data(sample_index, :);
 
