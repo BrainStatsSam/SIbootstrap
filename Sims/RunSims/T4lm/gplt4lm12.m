@@ -1,7 +1,7 @@
 nsubj = 60;
 std_dev = 1;
 B = 100;
-type = 'R2';
+type = 't4lm';
 
 FWHM = 6;
 for Jmax = 1:1000
