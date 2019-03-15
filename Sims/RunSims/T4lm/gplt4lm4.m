@@ -1,4 +1,4 @@
-nsubj = 100;
+nsubj = 60;
 std_dev = 1;
 B = 100;
 type = 't4lm';
