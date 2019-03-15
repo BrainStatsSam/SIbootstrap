@@ -6,7 +6,7 @@ for type = types
     stored = zeros(2*4,3);
     I = 1;
     for FWHM = [3,6]
-        for nsubj = 70:10:100;
+        for nsubj = 10:10:100;
             stored(I, 1) = nsubj;
             stored(I, 2) = FWHM;
             try 
