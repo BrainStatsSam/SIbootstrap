@@ -107,6 +107,7 @@ if use_para
     R2_bias = sum(R2_bias_vec);
 else
     for b = 1:B
+        b
         sample_index = randsample(nSubj,nSubj,1);
         boot_residuals = est_std_residuals(sample_index, :);
         boot_data = est_fitted + boot_residuals;

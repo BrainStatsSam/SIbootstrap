@@ -111,8 +111,10 @@ end
 Sig = Sig(:)';
 
 %Test is some progress has already been made in which case continue the progress!
+global server_dir
+server_addon = [server_dir, 'SIbootstrap/Sims/'];
 try
-    temp = load(jgit(['Sims/', filestart]));
+    temp = load([server_addon,filestart]);
     currentdataA = temp.A;
     currentdataB = temp.B;
     %     Jcurrent = currentdataA(:,1);
@@ -130,7 +132,7 @@ subject_mask = ones(stdsize);
 nentries_stored = 0;
 nentries_stored_is = 0;
 
-load('/data/greyplover/not-backed-up/oxwasp/oxwasp16/davenpor/SIbootstrap/Sims/store_thresh_nsubj.mat')
+load([server_addon,'store_thresh_nsubj.mat'])
 try
     FWHM_index = find([3,6] == FWHM);
 catch
@@ -181,12 +183,12 @@ for J = Jcurrent:(Jmax-1)
     end
     
     if type == -1
-        [ est , estwas, trueval, top_lm_indices ] = t4lmbias(1, B, data, subject_mask, threshold, Sig );
+        [ est , estwas, trueval, top_lm_indices ] = t4lmbias(1, B, data, Sig, subject_mask, threshold);
     elseif type == 0
         threshold = 2;
         [ est , estwas, trueval, top_lm_indices ] = lmbias_thresh(1, B, data, Sig, subject_mask, threshold);
     elseif type == 1
-        [ est , estwas, trueval, top_lm_indices ] = tbias_thresh(1, B, data, subject_mask, threshold, Sig, smooth_var);
+        [ est , estwas, trueval, top_lm_indices ] = tbias_thresh(1, B, data, Sig, subject_mask, threshold);
     elseif type == 2
         [ est, estwas, top_lm_indices, trueval] = glmbias_thresh_multivar( 1, B, x, data, true_R2, subject_mask, contrast, threshold);
     end
@@ -233,6 +235,6 @@ if Jcurrent > 0
     B = [currentdataB; B]; %#ok<NASGU>
 end
 
-save(['/data/greyplover/not-backed-up/oxwasp/oxwasp16/davenpor/SIbootstrap/Sims/', filestart], 'A', 'B', 'Jmax');
+save([server_addon, filestart], 'A', 'B', 'Jmax');
 end
 
