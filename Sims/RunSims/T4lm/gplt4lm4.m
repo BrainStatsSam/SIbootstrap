@@ -1,9 +1,10 @@
-nsubj = 60;
+nsubj = 100;
 std_dev = 1;
 B = 100;
 type = 't4lm';
 
-FWHM = 3;
+FWHM = 6;
+
 for Jmax = 1:1000
     calcests_sims_thresh2(type, nsubj, Jmax, FWHM, std_dev, B)
 end
