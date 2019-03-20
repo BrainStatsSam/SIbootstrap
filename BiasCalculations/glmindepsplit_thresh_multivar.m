@@ -72,6 +72,7 @@ end
 if top > 0
     R2_est = out2.R2(top_lm_indices);
     true_R2 = true_R2.^2;
+    warning('Need to change the true_R2 formula here!')
     true_R2 = true_R2(:);
     true = true_R2(top_lm_indices);
 end

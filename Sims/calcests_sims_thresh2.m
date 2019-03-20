@@ -214,7 +214,7 @@ for J = Jcurrent:(Jmax-1)
         [ est, trueval, top_lm_indices ] = indepsplit_thresh( data, reshape3D(Sig), subject_mask, threshold_is);
     elseif type == 1
         [ est, trueval, top_lm_indices ] = tindepsplit_thresh( data, reshape3D(Sig), subject_mask, threshold_is);
-    elseif type == 2
+    elseif type == 2                                                   
         [ est, trueval, top_lm_indices ] = glmindepsplit_thresh_multivar( x, data, true_R2, subject_mask, contrast, threshold_is);
     end
     top_is = length(est);
