@@ -1,7 +1,7 @@
 nsubj = 80;
 std_dev = 1;
 B = 100;
-type = 'mean';
+type = 'mean2';
 
 FWHM = 3;
 

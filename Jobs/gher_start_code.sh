@@ -1,4 +1,5 @@
 screen -dm matlab -nodisplay -r "gplmean1;exit"
-screen -dm matlab -nodisplay -r "gplmean2;exit"
 screen -dm matlab -nodisplay -r "gplmean3;exit"
-screen -dm matlab -nodisplay -r "gplmean4;exit"
+screen -dm matlab -nodisplay -r "gplmean5;exit"
+screen -dm matlab -nodisplay -r "gplmean7;exit"
+screen -dm matlab -nodisplay -r "gplmean10;exit"
