@@ -13,8 +13,13 @@ for type = types
             stored(I, 1) = nsubj;
             stored(I, 2) = FWHM;
             try 
-                load([davenpor,'SubmittedCode/SIbootstrap/Sims/',type{1},'Thresh/B100sd1FWHM', num2str(FWHM),'nsubj', num2str(nsubj),'SIMS.mat'])
-                stored(I, 3) = A(end,1);
+                try 
+                    load([davenpor,'SubmittedCode/SIbootstrap/Sims/',type{1},'Thresh/B100sd1FWHM', num2str(FWHM),'nsubj', num2str(nsubj),'SIMS.mat'])
+                    stored(I, 3) = A(end,1);
+                catch
+                    load([davenpor,'SubmittedCode/SIbootstrap/Sims/',type{1},'Thresh/B100sd1FWHM', num2str(FWHM),'nsubj', num2str(nsubj),'SIMSversion2.mat'])
+                    stored(I, 3) = A(end,1);
+                end
             catch
                 stored(I, 3) = NaN;
             end
