@@ -15,11 +15,7 @@ function Fstat = R2F( R2, n, p, p_0 )
 % R2F(0.8, 4000, 2, 1)
 % R2F(0.8, 4000, 2, 1)
 %--------------------------------------------------------------------------
-% SEE ALSO
-
-% if ~isequal(size(R2), size(n))
-%     warning('n is a vector so need to have an n for each of the Fstats')
-% end
+% AUTHOR: Sam Davenport
 
 if isequal(size(n), [1,1]) && length(R2) > 1
     n = repmat(n, 1, length(R2));

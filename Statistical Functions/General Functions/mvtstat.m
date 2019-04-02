@@ -43,7 +43,7 @@ est_var = (nsubj/(nsubj-1))*(sq_xbar - (xbar.^2));
 std_dev = sqrt(est_var);
 
 if threeD
-    global stdsize
+    stdsize = [91,109,91];
     xbar = reshape(xbar, stdsize);
     std_dev = reshape(std_dev, stdsize);
 else

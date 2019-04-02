@@ -15,7 +15,8 @@ function [ R2est, naiveest, top_lm_indices, trueval] = glmbias_thresh_multivar( 
 %           be intersection of the subject masks. If this is not specified
 %           the mask is just taken to be 1 everywhere.
 % contrast  the contrast vector to use in the linear model
-% threshold the threshold to use, RFT is implemented if this is omitted. 
+% threshold the threshold to use, RFT is implemented if tthreshold is 
+%           omitted or set to NaN.
 % use_inter 0/1, specifes whether to use an intercept or not. Default = 1.
 % use_para  0/1, specifies whether to parallelize the bootstrap part.
 %           Default is 0 ie not to.
@@ -27,7 +28,29 @@ function [ R2est, naiveest, top_lm_indices, trueval] = glmbias_thresh_multivar( 
 %               above the threshold
 % trueval       true R2 values at significant local maxima.
 %--------------------------------------------------------------------------
-% EXAMPLES
+% EXAMPLE - Note this requires the RFTtoolbox package.
+% Mag = 0.5822*ones(1, 9);
+% Rad = 10;
+% Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
+% contrast = [0,1];
+% true_f2 = Sig.^2;
+% true_R2 = true_f2./(1+true_f2);
+% true_R2 = true_R2(:)';
+% B = 100;
+% stdsize = [91,109,91];
+% nsubj = 20;
+% data = zeros(nsubj, prod(stdsize));
+% subject_mask = ones(stdsize);
+% FWHM = 3; %FWHM in voxels.
+%
+% noise = noisegen(stdsize, nsubj, FWHM, 3 );
+% x = normrnd(0, 1, [1, nsubj])';
+% for I = 1:nsubj
+%     data(I, :) = 1 + Sig.*x(I) + noise(I,:);
+% end
+% 
+% [ est, estwas, top_lm_indices, trueval] = ...
+%   glmbias_thresh_multivar( 1, B, x, data, true_R2, subject_mask, contrast, NaN, 1);
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport
 if nargin < 1
@@ -78,12 +101,14 @@ end
 
 mask_of_greater_than_threshold = Fstat > threshold;
 mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, [91,109,91]).*mask;
-top = numOfConComps(mask_of_greater_than_threshold, 0.5, 3);
 
-top_lm_indices = lmindices(Fstat,top, mask);
+[top_lm_indices, top] = lmindices(Fstat, Inf, mask_of_greater_than_threshold);
 
-if strcmp(top, 'all')
-    top = nVox;
+if top == 0
+    R2est = NaN;
+    naiveest = NaN;
+    trueval = NaN;
+    return
 end
 
 R2_bias = 0;

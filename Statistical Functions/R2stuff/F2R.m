@@ -15,17 +15,13 @@ function [R2, f2] = F2R( Fstat, n, p, p_0 )
 % F2R(4*4000, 4000, 2, 1)
 % F2R(0.05^2*4000, 4000, 2, 1)
 %--------------------------------------------------------------------------
-% SEE ALSO
+% AUTHOR: Sam Davenport
 if nargin < 4
     p_0 = p - 1;
     warning('We have assumed that the null model is the full model except leaving out one parameter');
 end
 
-% if length(size(n)) > 1 && ~isequal(size(Fstat), size(n))
-%     error('n is a vector so need to have an n for each of the Fstats')
-% end
 if isequal(size(n), [1,1])
-%     n = repmat(n, 1, length(Fstat));
     n = n*ones(size(Fstat));
 end
 

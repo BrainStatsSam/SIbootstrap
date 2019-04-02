@@ -26,7 +26,27 @@ function [ CD_est, naiveest, trueval, top_lm_indices ] = tbias_thresh( local, B,
 % trueval       true mean values at significant local maxima of the 
 %               t-statistic.
 %--------------------------------------------------------------------------
-% EXAMPLES
+% PACKAGES REQUIRED
+% RFTtoolbox
+%--------------------------------------------------------------------------
+% EXAMPLE 
+% Mag = [1, repmat(0.5, 1, 8)];
+% Rad = 10;
+% Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
+% B = 100;
+% stdsize = [91,109,91];
+% nsubj = 20;
+% data = zeros(nsubj, prod(stdsize));
+% subject_mask = ones(stdsize);
+%
+% FWHM = 3; %FWHM in voxels.
+% noise = noisegen(stdsize, nsubj, FWHM, 3 );
+% for I = 1:nsubj
+%     data(I, :) = Sig + noise(I,:);
+% end
+%
+% [ est, estwas, trueval, top_lm_indices ] = ...
+%     tbias_thresh(1, B, data, Sig, subject_mask);
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport
 if nargin < 1
@@ -62,10 +82,6 @@ end
 
 mask_of_greater_than_threshold = (sqrt(nSubj)*est_CD_vec > threshold);
 mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, [91,109,91]).*mask;
-
-% mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, [91,109,91]).*mask;
-% top = numOfConComps(mask_of_greater_than_threshold, 0.5, 3);
-% top_lm_indices = lmindices(est_mos_vec,top, mask);
 
 [top_lm_indices, top] = lmindices(est_CD_vec, Inf, mask_of_greater_than_threshold);
 

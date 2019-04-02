@@ -27,7 +27,24 @@ function [ meanest, naiveest, trueval, top_lm_indices ] = t4lmbias( local, B, da
 % trueval       true mean values at significant local maxima of the 
 %               t-statistic.
 %--------------------------------------------------------------------------
-% EXAMPLES
+% EXAMPLES - Note this requires the RFTtoolbox package.
+% Mag = [1, repmat(0.5, 1, 8)];
+% Rad = 10;
+% Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
+% B = 100;
+% stdsize = [91,109,91];
+% nsubj = 20;
+% data = zeros(nsubj, prod(stdsize));
+% subject_mask = ones(stdsize);
+%
+% FWHM = 3; %FWHM in voxels.
+% noise = noisegen(stdsize, nsubj, FWHM, 3 );
+% for I = 1:nsubj
+%     data(I, :) = Sig + noise(I,:);
+% end
+% 
+% [ est, estwas, trueval, top_lm_indices ] = ...
+%     t4lmbias(1, B, data, Sig, subject_mask);
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport
 if nargin < 1

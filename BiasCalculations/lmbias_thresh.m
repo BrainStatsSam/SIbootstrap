@@ -1,6 +1,6 @@
 function [ meanest, naiveest, trueval, top_lm_indices ] = lmbias_thresh( local, B, data, true_mean, mask, threshold )
-% LMBIAS takes in data and estimates the bias at the local maxima via
-% bootstrapping, working with reshaped data.
+% LMBIAS takes in data and estimates the bias at the locations of local 
+% maxima of the mean via bootstrapping.
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % local     0/1. 1 means that the value at the maximum of the bootstrap is
@@ -27,69 +27,39 @@ function [ meanest, naiveest, trueval, top_lm_indices ] = lmbias_thresh( local, 
 % trueatlocs    the true values at the locations of the local maxima of the
 %               estimated mean.
 % top_lm_indicies the indicies of the local maxima of the estimated mean.
-%
-% OLD OUTPUT:
-% diff2truemean a 1xtop vector giving the differences to the true mean
-%               for the top values.
-% diffwas       a 1xtop vector giving the values of what the biases were of
-%               the empirical mean relative to the true mean.
 %--------------------------------------------------------------------------
-% EXAMPLES
-% Default implementation (uses the first 20 subjects):
-% [ meanest, diff2truemean ] = lmbias();
+% EXAMPLES - Note this requires the RFTtoolbox package.
+% Mag = [2,4,4];
+% Rad = 10;
+% Sig = gensig( Mag, Rad, 6, stdsize, {[20,30,20], [40,70,40], [40, 70,70]} );
+% B = 100;
+% stdsize = [91,109,91];
+% nsubj = 20;
+% data = zeros(nsubj, prod(stdsize));
+% subject_mask = ones(stdsize);
 %
-% Using the global option:
-% data = zeros([20, 91*109*91]);
-% for I = 1:20
-%     img = readimg(I);
-%     data(I,:) = img(:);
-% end 
-% [ meanest, naiveest, trueval, top_lm_indices ] = lmbias(0, 20, 10, data);
-% diff2truemean
+% FWHM = 3; %FWHM in voxels.
+% noise = noisegen(stdsize, nsubj, FWHM, 3 );
+% for I = 1:nsubj
+%     data(I, :) = Sig + noise(I,:);
+% end
 %
-% %Giving in data:
-% data = zeros([20, 91*109*91]);
-% for I = 1:20
-%     img = readimg(I);
-%     data(I,:) = img(:);
-% end 
-% [ meanest, naiveest, trueval, top_lm_indices ] = lmbias(1, 20, 10, data)
-% diff2truemean
+% threshold = 2;
+% [est, naiveest, trueval, top_lm_indices ] = ...
+%     lmbias_thresh(1, B, data, Sig, subject_mask, threshold); 
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport
 if nargin < 1
     local = 1;
 end
 if nargin < 2
-    top = 20;
-end
-if nargin < 3
-    B = 10;
+    B = 100;
 end
 if nargin < 4
-    %Generates random data.
-    data = zeros([20, 91*109*91]);
-    for I = 1:20
-        img = readimg(I);
-        data(I,:) = img(:);
-    end
-    global TYPE
-    if strcmp(TYPE,'jala')
-        data = zeros([20, 91*109*91]);
-        for I = 1:20
-            img = readimg(I);
-            data(I,:) = img(:);
-        end
-    else
-        data = datagen(4,20);
-    end
-    fprintf('Done with data generation\n')
-end
-if nargin < 5
     true_mean = imgload('fullmean');
     true_mean = true_mean(:)';
 end
-if nargin < 6
+if nargin < 5
     mask = imgload('MNImask');
 end
 
@@ -99,13 +69,10 @@ if s(1) ~= 1
 end
 
 [nSubj, ~] = size(data);
-% est_mean_vec = mean(data, 1);
+
 est_mean_vec = mean(data, 1);
 mask_of_greater_than_threshold = est_mean_vec > threshold;
-% mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, [91,109,91]).*mask;
-% top = numOfConComps(mask_of_greater_than_threshold, 0.5, 3); %3 here is 3D!
-% 
-% top_lm_indices = lmindices(est_mean_vec, top, mask);
+
 mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, [91,109,91]).*mask;
 [top_lm_indices, top] = lmindices(est_mean_vec, Inf, mask_of_greater_than_threshold);
 
@@ -133,15 +100,8 @@ end
 bias = bias/B;
 meanest = est_mean_vec(top_lm_indices) - bias;
 
-% if local == 1
-%     diff2truemean = meanest - true_mean(top_lm_indices);
-% else
-%     diff2truemean = meanest - true_mean(top_truemean_lm_indices);
-% end
-
 naiveest = est_mean_vec(top_lm_indices);
 trueval = true_mean(top_lm_indices);
-% diffwas = est_mean_vec(top_lm_indices) - true_mean(top_lm_indices);
 
 end
 
