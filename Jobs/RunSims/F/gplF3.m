@@ -6,7 +6,7 @@ type = 'R2';
 FWHM = 3;
 
 for Jmax = 1:1000
-    calcests_sims_thresh2(type, nsubj, Jmax, FWHM, std_dev, B)
+    calcests_sims_thresh(type, nsubj, Jmax, FWHM, std_dev, B)
 end
 
 % %%

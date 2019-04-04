@@ -89,9 +89,6 @@ Sig = Sig(:)'; %Vectorize the Signal matrix
 %Set up file processing stuff.
 if type == 1
     filestart = strcat('tstatThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
-    if smooth_var == 1
-        filestart = strcat('smooth', filestart);
-    end
 elseif type == 2
     filestart = strcat('R2Thresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
 end

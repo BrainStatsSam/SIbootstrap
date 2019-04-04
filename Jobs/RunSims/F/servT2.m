@@ -1,4 +1,4 @@
-nsubj = 10;
+nsubj = 30;
 std_dev = 1;
 B = 100;
 type = 'tstat';
