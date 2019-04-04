@@ -22,7 +22,7 @@ function [tstat, xbar, std_dev, cohensd] = mvtstat( data, threeD, nansaszeros )
 % noise_at_vox = noise(:, vox);
 % muuuu = mean(noise_at_vox)
 % sigmatilde = std(noise_at_vox)
-% sqrt(nsubj)*muuuu/sigmatilde
+% sqrt(nsubj)*mu/sigmatilde
 % tstat(vox)
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport.
@@ -34,6 +34,12 @@ if nargin < 3
 end
 
 sD = size(data);
+% Error checking
+if length(sD) > 2
+    if sD(end) ~= 91
+        warning('It''s possible that your array is of the wrong shape as it isn''t in MNI space')
+    end
+end
 nsubj = sD(1);
 
 xbar = mean(data);
