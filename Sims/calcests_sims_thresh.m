@@ -3,7 +3,7 @@ function calcests_sims_thresh(type, groupsize, Jmax, FWHM, std_dev, B, use_para)
 % returns the estimates obtained under bootstrapping.
 %--------------------------------------------------------------------------
 % ARGUMENTS
-% type      Either 'mean', 'tstat' or R2
+% type      Either 'mean', 'tstat' or 'R2'
 % B         the number of bootstrap iterations.
 % groupsize the size of the groups of subjects to test.
 % Jmax      the total number of groups to test. Note that there are of
