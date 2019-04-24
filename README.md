@@ -1,21 +1,23 @@
-# Effective Degrees of Freedom of the Pearson's Correlation Coefficient under Serial Correlation
+# Selective peak inference: Unbiased estimation of raw and standardized effect size at local maxima
 
 ## Highlights
-* Autocorrelation biases the standard error of Pearson's correlation and breaks the variance-stabilising property of Fisher's transformation.
-* Severity of resting state fMRI autocorrelation varies systematically with region of interest size, and is heterogeneous over subjects.
-* Commonly used methods (see Aux directory) to adjust correlation standard errors are themselves biased when true correlation is non-zero due to a confounding effect.
-* We propose a ?xDF? method to provide accurate estimates of the variance of Pearson?s correlation -- before or after Fisher?s transformation -- that considers auto-correlation of each time series as well as instantaneous and lagged cross-correlation.
-* Accounting for the autocorrelation in resting-state functional connectivity considerably alters the graph theoretical description of human connectome.
-
+* 
 
 ## Table of contents
 * [Introduction](#introduction)
 * [Folder Structure](#folderstruct)
-* [Dependencies](#dependencies)
+    * [Bias Calculations](#biascalcs)
+    * [Linear Modelling](#linmod)
+    * [Power](#power)
+    * [Results](#results)
+    * [Results Figures](#resfigs)
+    * [Simulations](#sims)
+    * [Statistical Functions](#statfns)
+* [Set Up](#setup)
+    * [Dependencies](#dependencies)
 * [Examples](#Examples)
-  * [Using xDF](#xxDF)
-  * [Constructing Functional Connectivity (FC) Maps](#FC)
-
+    * [Using xDF](#xxDF)
+    * [Constructing Functional Connectivity (FC) Maps](#FC)
 
 ## Introduction <a name="introduction"></a>
 Collection of code to calculate the bias at the location of peaks and
@@ -23,20 +25,34 @@ reproduce figures from:
 
 ## Folder Structure <a name="folderstruct"></a>
 
-Bias Calculations contains the functions used to implement the bootstrap and
+### Bias Calculations <a name="biascalcs"></a>
+
+This folder contains the functions used to implement the bootstrap and
 data-splitting.
 
-Linear Modelling contains MVlm_multivar which fits a multivariate linear model 
+### Linear Modelling <a name="linmod"></a>
+This folder contains MVlm_multivar which fits a multivariate linear model 
 at every voxel (when the total number of subjects can fit into memory). 
-It also includes examples of how large scale linear models can be run 
+It also includes examples of how large scale linear models can be run.
 
-Simulations contains the 
+### Power <a name="power"></a>
 
-Real Data contains
+### Results <a name="results"></a>
 
-Statistical Functions contains the general statistical functions used in modelling.
+### Results Figures <a name="resfigs"></a>
 
-## Dependencies <a name="dependencies"></a>
+### Simulations <a name="sims"></a>
+
+contains the 
+
+Discuss the threshold calculations. 
+
+### Statistical Functions <a name="statfns"></a>
+
+contains the general statistical functions used in modelling.
+
+## Set up <a name="setup"></a>
 Collection of scripts to implement the xDF method introduced in
 
+### Dependencies <a name="dependencies"></a>
 RFTtoolbox package. This can be downloaded at: https://github.com/BrainStatsSam/RFTtoolbox.
