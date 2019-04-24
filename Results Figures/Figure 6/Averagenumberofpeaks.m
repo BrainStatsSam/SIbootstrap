@@ -1,4 +1,4 @@
-%%
+%% Code to generate Figure 6
 FWHM = 3;
 niters = 1000;
 groupsizes = 20:10:100;
@@ -9,16 +9,14 @@ count_peaks_is = zeros(1, length(groupsizes));
 count_peaks_is_av = zeros(1, length(groupsizes));
 
 for I = 1:length(groupsizes)
-    out = dispres_sims_thresh('tstat', groupsizes(I), 1, FWHM, 3, 0 , 0);
+    out = dispres_sims_thresh('tstat', groupsizes(I), FWHM, 0);
     boot_ests = out.biasboot;
-    fprintf('boot/circular\n')
-    count_peaks_boot(I) = sum(~isnan(boot_ests))
-    count_peaks_boot_av(I) = sum(~isnan(boot_ests))/niters
+    count_peaks_boot(I) = sum(~isnan(boot_ests));
+    count_peaks_boot_av(I) = sum(~isnan(boot_ests))/niters;
     
-    fprintf('is\n')
     is_ests = out.biasis;
-    count_peaks_is(I) = sum(~isnan(is_ests))
-    count_peaks_is_av(I) = sum(~isnan(is_ests))/niters
+    count_peaks_is(I) = sum(~isnan(is_ests));
+    count_peaks_is_av(I) = sum(~isnan(is_ests))/niters;
 end
 
 %%

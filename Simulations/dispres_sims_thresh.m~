@@ -42,7 +42,7 @@ else
     FWHM = num2str(FWHM);
 end
 
-std_dev = 1;
+std_de
 if strcmp(type, 'tstat')
     filestart = strcat('tstatThresh/B100sd',num2str(std_dev),'FWHM', FWHM, 'nsubj',num2str(groupsize),'SIMS');
 elseif strcmp(type, 't4lm')
