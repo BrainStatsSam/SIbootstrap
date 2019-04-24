@@ -8,35 +8,44 @@
 * Accounting for the autocorrelation in resting-state functional connectivity considerably alters the graph theoretical description of human connectome.
 
 
+
 ## Table of contents
 * [Introduction](#introduction)
-* [Folder Structure](#folderstruct)
-* [Dependencies](#dependencies)
+* [Configurations](#Configurations)
+  * [Dependencies](##Dependencies)
+  * [Octave](##Octave)
 * [Examples](#Examples)
   * [Using xDF](#xxDF)
   * [Constructing Functional Connectivity (FC) Maps](#FC)
+    * [FDR-based Statistically Thresholded Functional Connectivity](#STFC)
+    * [CE-based proportionally Thresholded Functional Connectivity](#CEFC)
+    * [Unthresholded Functional Connectivity](#UFC)
+* [Simulating time series of arbitrary correlation and autocorrelation structure](#Sim)
+  * [Correlated but White Time Series](#CW)
+  * [Uncorrelated but Autocorrelated Time Series](#UA)
+  * [Correlated and Autocorrelated Time Series](#CA)
+
+
 
 
 ## Introduction <a name="introduction"></a>
-Collection of code to calculate the bias at the location of peaks and
-reproduce figures from:
+Collection of code for
 
-## Folder Structure <a name="folderstruct"></a>
+to calculate 
 
-Bias Calculations contains the functions used to implement the bootstrap and
+# SIbootstrap
+
+REQUIRES: RFTtoolbox package. This can be downloaded at: .
+
+BiasCalculations contains the functions used to implement the bootstrap and
 data-splitting.
 
-Linear Modelling contains MVlm_multivar which fits a multivariate linear model 
+LinearModelling contains MVlm_multivar which fits a multivariate linear model 
 at every voxel (when the total number of subjects can fit into memory). 
 It also includes examples of how large scale linear models can be run 
 
-Simulations contains the 
+Sims contains the 
 
-Real Data contains
+RealData contains
 
 Statistical Functions contains the general statistical functions used in modelling.
-
-## Dependencies <a name="dependencies"></a>
-Collection of scripts to implement the xDF method introduced in
-
-RFTtoolbox package. This can be downloaded at: https://github.com/BrainStatsSam/RFTtoolbox.
