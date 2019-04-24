@@ -41,6 +41,14 @@ It also includes examples of how large scale linear models can be run.
 
 ### Results Figures <a name="resfigs"></a>
 
+Unfortunately the image data is not sharable however using the real results 
+provided in the results folder we can reproduce figures:  . (Where SM denotes
+the supplementary material.)
+
+The simulations data can be regenerated from scratch (see the code in the 
+Simulations folder). Using the results (already calculated) provided there
+we here repoduce figures:  
+
 ### Simulations <a name="sims"></a>
 
 contains the 
@@ -55,4 +63,9 @@ contains the general statistical functions used in modelling.
 Collection of scripts to implement the xDF method introduced in
 
 ### Dependencies <a name="dependencies"></a>
-RFTtoolbox package. This can be downloaded at: https://github.com/BrainStatsSam/RFTtoolbox.
+MATLAB
+
+For code needed to generate the simulations and perform RFT inference you
+will need the RFTtoolbox package. 
+
+This can be downloaded at: https://github.com/BrainStatsSam/RFTtoolbox.
