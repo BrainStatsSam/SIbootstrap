@@ -1,4 +1,8 @@
 %% Code to generate Figure 6
+% export_fig is required in order to save the images. 
+
+global SIbootstrap_loc %Needs to be set via startup.m
+
 FWHM = 3;
 niters = 1000;
 groupsizes = 20:10:100;
@@ -30,3 +34,6 @@ ylabel('Average number of peaks')
 legend('Bootstrap/Circular', 'Data-Splitting', 'Location', 'NorthWest')
 
 set(gca,'fontsize', 20)
+
+%% Plot saving:
+export_fig([SIbootstrap_loc, 'Results_Figures/Figure_6/Fig6.pdf'], '-transparent')

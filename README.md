@@ -47,7 +47,7 @@ the supplementary material.)
 
 The simulations data can be regenerated from scratch (see the code in the 
 Simulations folder). Using the results (already calculated) provided there
-we here repoduce figures:  
+we here reproduce figures:  
 
 ### Simulations <a name="sims"></a>
 
