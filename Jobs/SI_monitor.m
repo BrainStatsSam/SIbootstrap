@@ -14,10 +14,10 @@ for type = types
             stored(I, 2) = FWHM;
             try 
                 try 
-                    load([davenpor,'Toolboxes/SIbootstrap/Sims/',type{1},'Thresh/B100sd1FWHM', num2str(FWHM),'nsubj', num2str(nsubj),'SIMS.mat'])
+                    load([davenpor,'Toolboxes/SIbootstrap/Simulations/',type{1},'Thresh/B100sd1FWHM', num2str(FWHM),'nsubj', num2str(nsubj),'SIMS.mat'])
                     stored(I, 3) = A(end,1);
                 catch
-                    load([davenpor,'Toolboxes/SIbootstrap/Sims/',type{1},'Thresh/B100sd1FWHM', num2str(FWHM),'nsubj', num2str(nsubj),'SIMSversion2.mat'])
+                    load([davenpor,'Toolboxes/SIbootstrap/Simulations/',type{1},'Thresh/B100sd1FWHM', num2str(FWHM),'nsubj', num2str(nsubj),'SIMSversion2.mat'])
                     stored(I, 3) = A(end,1);
                 end
             catch

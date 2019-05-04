@@ -2,6 +2,9 @@
 % export_fig is required in order to save the images. 
 
 global SIbootstrap_loc %Needs to be set via startup.m
+if isempty(SIbootstrap_loc) 
+    error('SIbootstrap_loc must be defined by running startup.m')
+end
 
 FWHM = 3;
 niters = 1000;

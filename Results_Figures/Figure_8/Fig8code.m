@@ -3,6 +3,9 @@
 
 global def_col %Need to load startup.m for this to work.
 global SIbootstrap_loc %Needs to be set via startup.m
+if isempty(SIbootstrap_loc) || isempty(def_col)
+    error('SIbootstrap_loc and def_col must be defined by running startup.m')
+end
 
 type_set = {'tstat'};
 

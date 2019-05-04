@@ -87,7 +87,7 @@ end
 
 out.XtXinv = inv(transpose(X)*X); %Used to derive the SE.
 % coeff_mate = out.XtXinv*transpose(X);
-pX = pinv(X); %%% Equiv to (X'X)^{-1}X' but more numerical stable
+pX = pinv(X); %%% Equiv to (X'X)^{-1}X' but more numerically stable
 P = X*pX;
 oneminusH = 1 - diag(P);
 

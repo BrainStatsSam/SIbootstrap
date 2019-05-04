@@ -48,7 +48,7 @@ if strcmp(type, 'tstat')
 elseif strcmp(type, 't4lm')
     filestart = strcat('t4lmThresh/B100sd',num2str(std_dev),'FWHM', FWHM, 'nsubj',num2str(groupsize),'SIMS');
 elseif strcmp(type, 'mean')
-    filestart = strcat('meanThresh/B100sd',num2str(std_dev),'FWHM', FWHM, 'nsubj',num2str(groupsize),'SIMS');
+    filestart = strcat('meanThresh/B100sd',num2str(std_dev),'FWHM', FWHM, 'nsubj',num2str(groupsize),'SIMSversion2');
 elseif strcmp(type, 'R2')
     filestart = strcat('R2Thresh/B100sd',num2str(std_dev),'FWHM', FWHM, 'nsubj',num2str(groupsize),'SIMS');
 else
@@ -67,15 +67,16 @@ B = tempo.B;
 Jcurrent = A(:,1);
 Jmax = Jcurrent(end);
 
+nboots = 100;
 if printres == 1
     if strcmp(type,'mean')
-        fprintf('Results for the mean with nSubj = %d, Jmax = %d and B = %d.\n\n',groupsize,Jmax, B);
+        fprintf('Results for the mean with nSubj = %d, Jmax = %d and B = %d.\n\n',groupsize,Jmax, nboots);
     elseif strcmp(type, 'tstat')
-        fprintf('Results for Cohen''s d estimation at Cohen''s d peaks with nSubj = %d, Jmax = %d and B = %d.\n\n',groupsize, Jmax, B);
+        fprintf('Results for Cohen''s d estimation at Cohen''s d peaks with nSubj = %d, Jmax = %d and B = %d.\n\n',groupsize, Jmax, nboots);
     elseif strcmp(type, 't4lm')
-        fprintf('Results for mean estimation at Cohen''s d peaks with nSubj = %d, Jmax = %d and B = %d.\n\n',groupsize, Jmax, B);
+        fprintf('Results for mean estimation at Cohen''s d peaks with nSubj = %d, Jmax = %d and B = %d.\n\n',groupsize, Jmax, nboots);
     elseif strcmp(type, 'R2')
-        fprintf('Results for R2 estimation at R2 peaks with nSubj = %d, Jmax = %d and B = %d.\n\n',groupsize, Jmax, B);
+        fprintf('Results for R2 estimation at R2 peaks with nSubj = %d, Jmax = %d and B = %d.\n\n',groupsize, Jmax, nboots);
     end
 end
 
