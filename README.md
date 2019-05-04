@@ -56,7 +56,7 @@ calculated) we can produce the figures corresponding to the real data.
 
 ### Simulations <a name="sims"></a>
 This folder contains code to generate the simulations for the paper as well
-as the thresholds used. This requires the RFTtoolbox (see #dependencies)
+as the thresholds used. This requires the RFTtoolbox (see [Dependencies]#rftbox)
 in order to run.
 
 The subfolder Thresholds
@@ -65,8 +65,10 @@ The subfolder Thresholds
 This folder contains general statistical functions used in modelling.
 
 ## Dependencies <a name="dependencies"></a>
-MATLAB
 
+### MATLAB
+
+### RFTtoolbox <a name="rftbox"></a>
 For code needed to generate the simulations and perform RFT inference you
 will need the RFTtoolbox package.  This can be downloaded at: 
 https://github.com/BrainStatsSam/RFTtoolbox.
