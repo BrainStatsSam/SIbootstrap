@@ -31,22 +31,26 @@ function [ meanest, naiveest, trueval, top_lm_indices ] = lmbias_thresh( local, 
 % EXAMPLES - Note this requires the RFTtoolbox package.
 % Mag = [2,4,4];
 % Rad = 10;
-% Sig = gensig( Mag, Rad, 6, stdsize, {[20,30,20], [40,70,40], [40, 70,70]} );
-% B = 100;
 % stdsize = [91,109,91];
+% Sig = gensig( Mag, Rad, 6, stdsize, {[20,30,20], [40,70,40], [40, 70,70]} );
+% Sig = Sig(:)';
+% B = 100;
 % nsubj = 20;
 % data = zeros(nsubj, prod(stdsize));
 % subject_mask = ones(stdsize);
-%
+% 
 % FWHM = 3; %FWHM in voxels.
 % noise = noisegen(stdsize, nsubj, FWHM, 3 );
 % for I = 1:nsubj
 %     data(I, :) = Sig + noise(I,:);
 % end
-%
+% 
 % threshold = 2;
 % [est, naiveest, trueval, top_lm_indices ] = ...
 %     lmbias_thresh(1, B, data, Sig, subject_mask, threshold); 
+%--------------------------------------------------------------------------
+% PACKAGES REQUIRED
+% RFTtoolbox
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport
 if nargin < 1
@@ -85,6 +89,7 @@ end
 
 bias = 0;
 for b = 1:B
+    b
     sample_index = randsample(nSubj,nSubj,1);
     temp_data = data(sample_index, :);
     mean_map = mean(temp_data,1);

@@ -42,6 +42,11 @@ function [ CD_or_mean_est, true_CD_or_mean, top_lm_indices ] = tdatasplit_thresh
 % threshold = 2;
 % [ mean_est, true, top_lm_indices ] = tindepsplit_thresh( data, Sig, subject_mask, threshold)
 %--------------------------------------------------------------------------
+% PACKAGES REQUIRED
+% RFTtoolbox
+%--------------------------------------------------------------------------
+% AUTHOR: Sam Davenport
+
 if nargin < 4
      threshold = NaN;
 end

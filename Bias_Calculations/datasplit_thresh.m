@@ -31,7 +31,10 @@ function [ mean_est, true, top_lm_indices ] = datasplit_thresh( data, true_mean,
 % threshold = 2;
 % [ mean_est, true, top_lm_indices ] = indepsplit_thresh( data, Sig, subject_mask, threshold)
 %--------------------------------------------------------------------------
-% AUTHOR: Sam Davenport - 22/03/2019
+% PACKAGES REQUIRED
+% RFTtoolbox
+%--------------------------------------------------------------------------
+% AUTHOR: Sam Davenport
 if nargin < 2
     true_mean = imgload('fullmean');
 end

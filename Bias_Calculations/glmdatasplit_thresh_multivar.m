@@ -44,6 +44,9 @@ function [ R2_est, true, top_lm_indices]  = glmdatasplit_thresh_multivar( X, dat
 % [ R2_est, true, top_lm_indices]  = ...
 %   glmindepsplit_thresh_multivar( x, data, true_R2, subject_mask, contrast, NaN, 1 )
 %--------------------------------------------------------------------------
+% PACKAGES REQUIRED
+% RFTtoolbox
+%--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport
 if nargin < 4
     mask = imgload('MNImask');
