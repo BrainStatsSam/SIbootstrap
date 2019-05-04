@@ -56,7 +56,7 @@ calculated) we can produce the figures corresponding to the real data.
 
 ### Simulations <a name="sims"></a>
 This folder contains code to generate the simulations for the paper as well
-as the thresholds used. This requires the RFTtoolbox (see [Dependencies]#rftbox)
+as the thresholds used. This requires the RFTtoolbox (see [Dependencies](#rftbox) )
 in order to run.
 
 The subfolder Thresholds
