@@ -9,15 +9,11 @@ function calcests_sims_thresh(type, groupsize, Jmax, FWHM, std_dev, B, use_para)
 % Jmax      the total number of groups to test. Note that there are of
 %           course contraints on this because of the amount of data.
 %           Error checking for this is included.
-
 %--------------------------------------------------------------------------
 % OUTPUT
-% A csv file with the the results.
+% A mat file with the the results.
 %--------------------------------------------------------------------------
-% EXAMPLES
-%--------------------------------------------------------------------------
-% SEE ALSO
-%
+% Author: Sam Davenport
 if nargin < 1
     type = 0; %Meaning that the normal mean is targetted not the t-img.
 end
