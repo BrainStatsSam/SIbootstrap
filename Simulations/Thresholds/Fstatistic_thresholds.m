@@ -1,3 +1,6 @@
+% Code to calculate the thresholds for the GLM simulations for the paper.
+% This requires code from the RFTtoolbox.
+
 niters = 5000;
 FWHM = 3;
 

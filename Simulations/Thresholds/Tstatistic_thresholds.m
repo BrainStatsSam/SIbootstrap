@@ -1,3 +1,6 @@
+% Code to calculate the thresholds for the one-sample t statistic
+% simulations for the paper. This requires code from the RFTtoolbox.
+
 niters = 5000;
 FWHM = 3;
 alpha = 0.05;

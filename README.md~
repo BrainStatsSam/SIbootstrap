@@ -60,12 +60,10 @@ as the thresholds used. This requires the RFTtoolbox (see [Dependencies](#rftbox
 in order to run.
 
 The subfolder Thresholds contains code to calculate the thresholds used in 
-the one-sample and GLM simulations in the paper. store_thresh_nsubj.mat
-stores these thresholds in a .mat file (as they take a non-trivial amount 
-of time to run).
+the one-sample and GLM simulations in the paper.
 
 calcests_sims_thresh can be used to run the simulations and 
-dispres_sims_thresh can be used to display the simulation results.
+dispres_sims_thresh can be used to display the sim
 
 ### Statistical Functions <a name="statfns"></a>
 This folder contains general statistical functions used in modelling.
