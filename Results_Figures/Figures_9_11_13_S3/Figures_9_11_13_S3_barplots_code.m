@@ -124,7 +124,7 @@ ylim([0,0.55])
 
 legend('Circular', 'Data-Splitting', 'Bootstrap')
 % set(gca, 'XTicks',[1, 2, 3])
-ylabel('RMSE of Cohen''s d estimates', 'FontSize', 20)
+ylabel('RMSE of Cohen''s d', 'FontSize', 20)
 title('Comparing the RMSE across significant peaks','FontSize', 25, 'FontWeight', 'normal')
 set(gca, 'XTickLabel', {'N = 20', 'N = 50', 'N = 100'})
 set(gcf, 'position', pos_vector)
@@ -139,7 +139,7 @@ bar_var_plot(3).FaceColor = def_col('yellow');
 
 legend('Circular', 'Data-Splitting', 'Bootstrap')
 % xlim([0.35,3.65])
-ylabel('Standard Deviation of Cohen''s d estimates', 'FontSize', 20)
+ylabel('Standard Deviation of Cohen''s d', 'FontSize', 20)
 title('Comparing the standard deviation across significant peaks','FontSize', 25, 'FontWeight', 'normal')
 set(gca, 'XTickLabel', {'N = 20', 'N = 50', 'N = 100'})
 set(gcf, 'position', pos_vector)
