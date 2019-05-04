@@ -1,4 +1,7 @@
 # Selective peak inference: Unbiased estimation of raw and standardized effect size at local maxima
+A collection of code to calculate the bias at the location of peaks and
+reproduce figures. See https://www.biorxiv.org/content/10.1101/500512v2n
+for the current version of the paper.
 
 ## Table of contents
 * [Introduction](#introduction)
@@ -11,10 +14,11 @@
     * [Simulations](#sims)
     * [Statistical Functions](#statfns)
 * [Dependencies](#dependencies)
+* [Citation](#cite)
 
 ## Introduction <a name="introduction"></a>
 A collection of code to calculate the bias at the location of peaks and
-reproduce figures from:
+reproduce figures from: 
 
 ## Folder Structure <a name="folderstruct"></a>
 
@@ -78,3 +82,10 @@ This folder contains general statistical functions used in modelling.
 For code needed to generate the simulations and perform RFT inference you
 will need the RFTtoolbox package.  This can be downloaded at: 
 https://github.com/BrainStatsSam/RFTtoolbox.
+
+## Citation <a name="dependencies"></a>
+Please feel free to use any and all code from this repository in your own work
+however if you do please cite our pre-print found at:
+https://www.biorxiv.org/content/10.1101/500512v2n
+and if you share code online that uses this code please include a link 
+to this repository.
