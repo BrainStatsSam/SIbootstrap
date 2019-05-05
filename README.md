@@ -76,12 +76,17 @@ This folder contains general statistical functions used in modelling.
 
 ## Dependencies <a name="dependencies"></a>
 
-### MATLAB
-
 ### RFTtoolbox <a name="rftbox"></a>
 For code needed to generate the simulations and perform RFT inference you
 will need the RFTtoolbox package.  This can be downloaded at: 
 https://github.com/BrainStatsSam/RFTtoolbox.
+
+### MATLAB
+All code was run in matlab2015a.
+
+### export_fig
+Figures were produced using the export_fig matlab package. This can be 
+downloaded at https://uk.mathworks.com/matlabcentral/fileexchange/23629-export_fig
 
 ## Citation <a name="dependencies"></a>
 Please feel free to use any and all code from this repository in your own work
