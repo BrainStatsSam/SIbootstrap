@@ -3,6 +3,9 @@ A collection of code to calculate the bias at the location of peaks and
 reproduce figures. See https://www.biorxiv.org/content/10.1101/500512v2n
 for the current version of the paper.
 
+In order to clone this repo run:
+git clone --depth=1 https://github.com/BrainStatsSam/SIbootstrap
+
 ## Table of contents
 * [Introduction](#introduction)
 * [Folder Structure](#folderstruct)
@@ -86,7 +89,7 @@ and perform general inference on local maxima.
 All code was run in matlab2015a.
 
 ### export_fig
-Figures were produced using the export_fig matlab package. This can be 
+Figures were printed to pdfs using the export_fig matlab package. This can be 
 downloaded at https://uk.mathworks.com/matlabcentral/fileexchange/23629-export_fig
 
 ## Citation <a name="dependencies"></a>
