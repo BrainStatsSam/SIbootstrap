@@ -77,9 +77,10 @@ This folder contains general statistical functions used in modelling.
 ## Dependencies <a name="dependencies"></a>
 
 ### RFTtoolbox <a name="rftbox"></a>
-For code needed to generate the simulations and perform RFT inference you
-will need the RFTtoolbox package.  This can be downloaded at: 
-https://github.com/BrainStatsSam/RFTtoolbox.
+In order to run most of this code you will need the RFTtoolbox package.  
+This can be downloaded at: https://github.com/BrainStatsSam/RFTtoolbox.
+This package is used to generate the simulations, perform RFT inference 
+and perform general inference on local maxima.
 
 ### MATLAB
 All code was run in matlab2015a.
