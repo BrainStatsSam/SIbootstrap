@@ -1,5 +1,5 @@
 function [tstat, xbar, std_dev, cohensd] = mvtstat( data, threeD, nansaszeros )
-% MVTSTAT computes the multivariate t-statistic.
+% MVTSTAT( data, threeD, nansaszeros ) computes the multivariate t-statistic.
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % data          An nsubj by nvox matrix with the data. Can also take in an 
