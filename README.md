@@ -1,6 +1,6 @@
 # Selective peak inference: Unbiased estimation of raw and standardized effect size at local maxima
 A collection of code to calculate the bias at the location of peaks and
-reproduce figures. See https://www.biorxiv.org/content/10.1101/500512v2n
+reproduce figures. See https://www.biorxiv.org/content/10.1101/500512v2
 for the current version of the paper.
 
 In order to clone this repo run:
@@ -20,8 +20,20 @@ git clone --depth=1 https://github.com/BrainStatsSam/SIbootstrap
 * [Citation](#cite)
 
 ## Introduction <a name="introduction"></a>
-A collection of code to calculate the bias at the location of peaks and
-reproduce figures from: 
+The spatial signals in neuroimaging mass univariate analyses can be characterized 
+in a number of ways, but one widely used approach is peak inference: the 
+identification of peaks in the signal. Peak locations and magnitudes provide 
+a useful summary of activation and are routinely reported, however, the 
+magnitudes reflect selection bias as these points have both survived a threshold 
+and are local maxima. In this toolbox we provide resampling methods 
+to estimate and correct this bias in order to estimate both the raw units 
+change as well as standardized effect size measured with Cohen’s d and 
+partial R2. 
+
+The details and performance of our methods can be found in our paper:
+Selective peak inference: Unbiased estimation of raw and standardized effect size at local maxima.
+There we evaluate our method with a massive open dataset, and discuss 
+how the corrected estimates can be used to perform power analyses.
 
 ## Folder Structure <a name="folderstruct"></a>
 
