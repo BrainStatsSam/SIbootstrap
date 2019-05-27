@@ -1,15 +1,17 @@
-function [ mean_est, true, top_lm_indices ] = datasplit_thresh( data, true_mean, mask, threshold)
-% INDEPSPLIT calculates a 50:50 split of the data and uses the first half
-% to find the locations of the local maxima and the second half to find the 
-% values observed there. 
+function [ mean_est, true, top_lm_indices ] = datasplit_thresh( data, true_mean, mask, threshold )
+% DATASPLIT_THRESH( data, true_mean, mask, threshold) calculates a 50:50 
+% split of the data and uses the first half to find the locations of the 
+% local maxima of the mean and the second half to find the mean values 
+% observed there. 
 %--------------------------------------------------------------------------
 % ARGUMENTS
-% which_subj    specifies which subjects to test on.
-% top           specifies the top values to calculate the difference in
-%               bias for.
-% true_value    the underlying mos signal, note that this needs to be
-%               adjusted (and is in the code below) to account for sample
-%               size.
+% data      a 2d matrix that is the number of subjects by the number of
+%           voxels.
+% true_mean     a 3d array giving the true mean at each voxel.
+% mask      the mask over which to do the inference. Usually we take it to
+%           be intersection of the subject masks. If this is not specified
+%           the mask is just taken to be 1 everywhere.
+% threshold     the threshold to use.
 %--------------------------------------------------------------------------
 % OUTPUT
 % 
@@ -29,7 +31,7 @@ function [ mean_est, true, top_lm_indices ] = datasplit_thresh( data, true_mean,
 % end
 %
 % threshold = 2;
-% [ mean_est, true, top_lm_indices ] = indepsplit_thresh( data, Sig, subject_mask, threshold)
+% [ mean_est, true, top_lm_indices ] = datasplit_thresh( data, Sig, subject_mask, threshold)
 %--------------------------------------------------------------------------
 % PACKAGES REQUIRED
 % RFTtoolbox
