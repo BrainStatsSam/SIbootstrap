@@ -1,4 +1,4 @@
-function [ CD_est, naiveest, trueval, top_lm_indices ] = tbias_thresh( local, B, data, true_CD, mask, threshold )
+function [ CD_est, naiveest, trueval, top_lm_indices ] = tbias_thresh( local, B, data, mask, true_CD, threshold )
 % TBIAS_THRESH( local, B, data, true_CD, mask, threshold ) takes in data 
 % and estimates the bias in Cohen's d at the local maxima of the t-statistic 
 % via  bootstrapping.
@@ -56,7 +56,7 @@ end
 if nargin < 2
     B = 1000;
 end
-if nargin < 4
+if nargin < 5
     true_CD = NaN;
 end
 if nargin < 6
@@ -70,7 +70,7 @@ if s(1) ~= 1
 end
 
 [nSubj, nVox] = size(data);
-if nargin < 5
+if nargin < 4
     mask = ones(1, nVox);
 end
 [~, ~, est_CD_vec] = meanmos(data);
