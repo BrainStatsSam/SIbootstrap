@@ -1,4 +1,4 @@
-function [ CD_est, naiveest, trueval, top_lm_indices ] = tbias_thresh( local, B, data, mask, true_CD, threshold )
+function [ CD_est, naiveest, trueval, top_lm_indices ] = tbias_thresh( local, B, data, mask, true_CD, image_dimensions, threshold )
 % TBIAS_THRESH( local, B, data, true_CD, mask, threshold ) takes in data 
 % and estimates the bias in Cohen's d at the local maxima of the t-statistic 
 % via  bootstrapping.
@@ -44,7 +44,7 @@ function [ CD_est, naiveest, trueval, top_lm_indices ] = tbias_thresh( local, B,
 % end
 % 
 % [ est, estwas, trueval, top_lm_indices ] = ...
-%     tbias_thresh(1, B, data, Sig, subject_mask);
+%     tbias_thresh(1, B, data, subject_mask, Sig );
 %--------------------------------------------------------------------------
 % PACKAGES REQUIRED
 % RFTtoolbox
@@ -60,6 +60,9 @@ if nargin < 5
     true_CD = NaN;
 end
 if nargin < 6
+    image_dimensions = [91,109,91];
+end
+if nargin < 7
     threshold = NaN;
 end
 
@@ -76,13 +79,17 @@ end
 [~, ~, est_CD_vec] = meanmos(data);
 
 if isnan(threshold)
-    fwhm_est = est_smooth(reshape(data', [91,109,91, nSubj]));
+%     fwhm_est = est_smooth(reshape(data', [91,109,91, nSubj]));
+    if length(image_dimensions) < 3
+        error('RFT thresholds not yet implemented here')
+    end
+    fwhm_est = est_smooth(reshape(data', [image_dimensions nSubj]));
     resel_vec = spm_resels_vol(mask, fwhm_est)';
     threshold = spm_uc( 0.05, [1,(nSubj-1)], 'T', resel_vec, 1 );
 end
 
 mask_of_greater_than_threshold = (sqrt(nSubj)*est_CD_vec > threshold);
-mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, [91,109,91]).*mask;
+mask_of_greater_than_threshold = reshape(mask_of_greater_than_threshold, image_dimensions).*mask;
 
 [top_lm_indices, top] = lmindices(est_CD_vec, Inf, mask_of_greater_than_threshold);
 

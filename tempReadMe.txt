@@ -40,27 +40,31 @@ how the corrected estimates can be used to perform power analyses.
 ### Bias Calculations <a name="biascalcs"></a>
 
 ```
-Mag = [1, repmat(0.5, 1, 6), 0.7, 0.3];
-Rad = [repmat(10, 1, 5), 6, 8, 6, 10];
-stdsize = [91,109,91];
-Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
-surf(Sig(:,:,80))
+peak_magnitudes = [0.5, 0.8]
+radii = 3;
+smoothing = [10,20];
+image_dimensions = [100,150];
+peak_locations =  {[40,30], [70,120]}
+
+Sig = gensig(peak_magnitudes, radii, smoothing, image_dimensions, peak_locations);
+surf(Sig)
 ```
 
 ```
 Sig = Sig(:)';
-B = 100;
-nsubj = 20;
-data = zeros(nsubj, prod(stdsize));
-subject_mask = ones(stdsize);
+B = 100; %The number of bootstraps
+nsubj = 20; %The number of subjects
+data = zeros(nsubj, prod(image_dimensions));
+subject_mask = ones(image_dimensions);
 
 FWHM = 3; %FWHM in voxels.
-noise = noisegen(stdsize, nsubj, FWHM, 3 );
+noise = noisegen(image_dimensions, nsubj, FWHM, 3 );
 for I = 1:nsubj
     data(I, :) = Sig + noise(I,:);
 end
 
-[ est, estwas, trueval, top_lm_indices ] = tbias_thresh(1, B, data, subject_mask, Sig );
+threshold = 6; %This can be set by RFT or permutation. 
+[ est, estwas, trueval, top_lm_indices ] = tbias_thresh(1, B, data,subject_mask, Sig, image_dimensions, threshold);
 ```
 
 This folder contains the functions used to implement the bootstrap, 
@@ -96,12 +100,6 @@ The simulations data can be regenerated from scratch (this has already been
 run, but see the code in the Simulations folder in order to re-run it if 
 you would like to). And using the data from the Results folder (already 
 calculated) we can produce the figures corresponding to the real data.
-
-Here we plot the results for bias, standard deviation and root mean squared error, see the paper for more details. 
-
-![alt tag](Results_Figures/Figures_9_11_13_S3/Figure_11_bias.pdf)
-![alt tag](Results_Figures/Figures_9_11_13_S3/Figure_11_std.pdf)
-![alt tag](Results_Figures/Figures_9_11_13_S3/Figure_11_rmse.pdf)
 
 ### Simulations <a name="sims"></a>
 This folder contains code to generate the simulations for the paper as well
