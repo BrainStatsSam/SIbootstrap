@@ -39,30 +39,6 @@ how the corrected estimates can be used to perform power analyses.
 
 ### Bias Calculations <a name="biascalcs"></a>
 
-```
-Mag = [1, repmat(0.5, 1, 6), 0.7, 0.3];
-Rad = [repmat(10, 1, 5), 6, 8, 6, 10];
-stdsize = [91,109,91];
-Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
-surf(Sig(:,:,80))
-```
-
-```
-Sig = Sig(:)';
-B = 100;
-nsubj = 20;
-data = zeros(nsubj, prod(stdsize));
-subject_mask = ones(stdsize);
-
-FWHM = 3; %FWHM in voxels.
-noise = noisegen(stdsize, nsubj, FWHM, 3 );
-for I = 1:nsubj
-    data(I, :) = Sig + noise(I,:);
-end
-
-[ est, estwas, trueval, top_lm_indices ] = tbias_thresh(1, B, data, subject_mask, Sig );
-```
-
 This folder contains the functions used to implement the bootstrap, 
 circular inference and data-splitting to compute estiamtes of the mean, 
 Cohen's d and partial R^2 estimates for the General Linear Model.
@@ -140,3 +116,28 @@ however if you do please cite our pre-print found at:
 https://www.biorxiv.org/content/10.1101/500512v2n
 and if you share code online that uses this code please include a link 
 to this repository.
+
+
+```
+Mag = [1, repmat(0.5, 1, 6), 0.7, 0.3];
+Rad = [repmat(10, 1, 5), 6, 8, 6, 10];
+stdsize = [91,109,91];
+Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
+surf(Sig(:,:,80))
+```
+
+```
+Sig = Sig(:)';
+B = 100;
+nsubj = 20;
+data = zeros(nsubj, prod(stdsize));
+subject_mask = ones(stdsize);
+
+FWHM = 3; %FWHM in voxels.
+noise = noisegen(stdsize, nsubj, FWHM, 3 );
+for I = 1:nsubj
+    data(I, :) = Sig + noise(I,:);
+end
+
+[ est, estwas, trueval, top_lm_indices ] = tbias_thresh(1, B, data, subject_mask, Sig );
+```
