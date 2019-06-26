@@ -1,4 +1,4 @@
-function [tstat, xbar, std_dev, cohensd] = mvtstat( data, threeD, nansaszeros )
+function [tstat, xbar, std_dev, cohensd] = mvtstat( data, Dim, nansaszeros )
 % MVTSTAT( data, threeD, nansaszeros ) computes the multivariate t-statistic.
 %--------------------------------------------------------------------------
 % ARGUMENTS
@@ -15,6 +15,10 @@ function [tstat, xbar, std_dev, cohensd] = mvtstat( data, threeD, nansaszeros )
 % noise = noisegen([91,109,91], 20, 6, 1);
 % tstat = mvtstat(noise);
 %
+% Dim = [100,100];
+% noise = noisegen(Dim, 20, 2, 1);
+% tstat = mvtstat(noise, Dim);
+% 
 % nsubj = 20;
 % noise = noisegen([91,109,91], nsubj, 6, 3);
 % tstat = mvtstat(noise);
@@ -26,8 +30,9 @@ function [tstat, xbar, std_dev, cohensd] = mvtstat( data, threeD, nansaszeros )
 % tstat(vox)
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport.
+% NEEDS TO MOVE TO THE RFTtoolbox!
 if nargin < 2
-    threeD = 0;
+    Dim = NaN;
 end
 if nargin < 3
     nansaszeros = 0;
@@ -35,11 +40,11 @@ end
 
 sD = size(data);
 % Error checking
-if length(sD) > 2
-    if sD(end) ~= 91
-        warning('It''s possible that your array is of the wrong shape as it isn''t in MNI space')
-    end
-end
+% if length(sD) > 2
+%     if sD(end) ~= 91
+%         warning('It''s possible that your array is of the wrong shape as it isn''t in MNI space')
+%     end
+% end
 nsubj = sD(1);
 
 xbar = mean(data);
@@ -48,10 +53,14 @@ sq_xbar = mean(data.^2);
 est_var = (nsubj/(nsubj-1))*(sq_xbar - (xbar.^2));
 std_dev = sqrt(est_var);
 
-if threeD
+if Dim == 1
+    global stdsize %This loop is to cover things that use it, it should be deprecated soon!
     stdsize = [91,109,91];
     xbar = reshape(xbar, stdsize);
     std_dev = reshape(std_dev, stdsize);
+elseif isequal(prod(Dim),  prod(sD(2:end)))
+    xbar = reshape(xbar, Dim);
+    std_dev = reshape(std_dev, Dim);
 else
     xbar = xbar(:);
     std_dev = std_dev(:);
