@@ -1,4 +1,4 @@
-function calcests_sims_thresh(type, groupsize, Jmax, FWHM, std_dev, B, use_para)
+function calcests_sims_thresh(type, groupsize, Jmax, FWHM, std_dev, B, effectsizescale, use_para)
 % CALCESTS_SIMS_THRESH(type, groupsize, Jmax, FWHM, std_dev, B, use_parasix32)
 % returns the estimates obtained under bootstrapping.
 %--------------------------------------------------------------------------
@@ -33,6 +33,9 @@ if nargin < 6
     B = 50;
 end
 if nargin < 7
+    effectsizescale = 1;
+end
+if nargin < 8
     use_para = 0;
 end
 stdsize = [91,109,91]; %The size of the 2mm MNI brain image.
@@ -54,24 +57,27 @@ end
 
 if strcmp(type, 'mean')
     type = 0;
-    Mag = [2,4,4];
+    Mag = [2,4,4]*effectsizescale;
     Rad = 10;
-    Sig = gensig( Mag, Rad, 6, stdsize, {[20,30,20], [40,70,40], [40, 70,70]} );
+    Sig = gensig( Mag, Rad, 6, stdsize, {[20,30,20], [40,70,40], [40, 70, 70]} );
     filestart = strcat('meanThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring,'nsubj',num2str(nSubj),'SIMS','version2');
 elseif strcmp(type, 'tstat') || strcmp(type, 't')
     type = 1;
-    Mag = [1, repmat(0.5, 1, 8)];
+%     Mag = [1, repmat(0.5, 1, 8)];
+    Mag = repmat(effectsizescale, 1, 9);
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
 elseif strcmp(type, 't4lm')
     type = -1;
-    Mag = [1, repmat(0.5, 1, 8)];
+%     Mag = [1, repmat(0.5, 1, 8)];
+    Mag = repmat(effectsizescale, 1, 9);
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
     filestart = strcat('t4lmThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
 elseif strcmp(type, 'R2') || strcmp(type, 'R2')
     type = 2;
-    Mag = 0.5822*ones(1, 9);
+%     Mag = 0.5822*ones(1, 9);
+    Mag = effectsizescale*ones(1, 9);
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
     contrast = [0,1];
@@ -83,17 +89,27 @@ Sig = Sig(:)'; %Vectorize the Signal matrix
 
 
 %Set up file processing stuff.
+file_init = strcat('B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS_ES', num2str(100*effectsizescale));
 if type == 1
-    filestart = strcat('tstatThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
+    filestart = strcat('tstatThresh/',file_init);
 elseif type == 2
-    filestart = strcat('R2Thresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
+    filestart = strcat('R2Thresh/',file_init);
+elseif type == 0
+    filestart = strcat('meanThresh/',file_init);
+elseif type == -1
+    filestart = strcat('t4lmThresh/',file_init);
 end
+% if type == 1
+%     filestart = strcat('tstatThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS_ES', num2str(100*effectsizescale));
+% elseif type == 2
+%     filestart = strcat('R2Thresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS_ES', num2str(100*effectsizescale));
+% end
 
 %Test if some progress has already been made in which case continue the progress!
 % server_dir is the folder where SIbootstrap is contained, this will need
 % to be changed to the folder on your machine.
 global server_dir
-server_addon = [server_dir, 'SIbootstrap/Sims/'];
+server_addon = [server_dir, 'SIbootstrap/Simulations/'];
 try
     temp = load([server_addon,filestart]);
     currentdataA = temp.A;
@@ -121,7 +137,7 @@ end
 %of 5, 10, ..., 95, 100. The code below loads these thresholds. These are 
 % calculated using the code: 
 % They have been saved and are loaded as follows:
-load([server_addon,'/Thresholds/store_thresh_nsubj.mat'])
+load([server_addon,'Thresholds/store_thresh_nsubj.mat'])
 if type == 1 || type == -1 
     store_thresh_mate = tstat_thresholds(groupsize-1);
     threshold = store_thresh_mate(FWHM_index,2);
