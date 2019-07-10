@@ -1,4 +1,4 @@
-function imp_siboot_sims( nsubj, type, effectsize, sim_tot )
+function imp_siboot_sims( nsubj, type, effectsize, sim_tot, B )
 % IMP_SIBOOT_SIMS( nsubj, type, effectsizescale ) implements the
 % simulations for the SIbootstrap paper.
 %--------------------------------------------------------------------------
@@ -12,12 +12,14 @@ function imp_siboot_sims( nsubj, type, effectsize, sim_tot )
 if nargin < 4
     sim_tot = 1000;
 end
+if nargin < 5
+    B = 100;
+end
 std_dev = 1;
-B = 100;
 FWHM = 3;
 
 if strcmp(type, 'R2')
-    [effectsizescale, ~] = matchsimspowerCD2R2( effectsize );
+    [effectsizescale, ~] = matchsimspowerCD2R2( effectsize, nsubj );
 else
     effectsizescale = effectsize;
 end
