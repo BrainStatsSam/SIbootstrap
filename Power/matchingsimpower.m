@@ -62,4 +62,11 @@ for I = 1:length(CD_vec)
 end
 R2_vec
 
+%%
+CD_vec = 0.1:0.1:0.7;
+R2_vec = zeros(1, length(CD_vec));
+for I = 1:length(CD_vec)
+    [~,R2_vec(I)] = matchsimspowerCD2R2( CD_vec(I) );
+end
+R2_vec
 

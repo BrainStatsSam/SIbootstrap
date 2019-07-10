@@ -1,11 +1,11 @@
-function imp_siboot_sims( nsubj, type, stddev_setting, sim_tot )
+function imp_siboot_sims( nsubj, type, effectsize, sim_tot )
 % IMP_SIBOOT_SIMS( nsubj, type, effectsizescale ) implements the
 % simulations for the SIbootstrap paper.
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % nsubj             the number of subjects
 % type              the type either T, R2, t4lm or mean
-% effectsizescale   the factor with which to scale the effect sizes
+% effectsize        the effectsize of the maxima
 % sim_tot           the total number of iterations
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport.
@@ -16,15 +16,15 @@ std_dev = 1;
 B = 100;
 FWHM = 3;
 
-R2_vec = 0.05:0.05:0.35;
-CD_vec = zeros(1, length(R2_vec));
-for I = 1:length(R2_vec)
-    CD_vec(I) = matchsimspowerR22CD( R2_vec(I) );
+if strcmp(type, 'R2')
+    [effectsizescale, ~] = matchsimspowerCD2R2( effectsize );
+else
+    effectsizescale = effectsize;
 end
-sigma_vec = repmat(0.5,1, length(CD_vec))./CD_vec;
+%We'll take CD = 0.1:0.1:0.6;
 
 for Jmax = 1:sim_tot
-    calcests_sims_thresh(type, nsubj, Jmax, FWHM, std_dev, B)
+    calcests_sims_thresh(type, nsubj, Jmax, FWHM, std_dev, B, effectsizescale)
 end
 
 end
