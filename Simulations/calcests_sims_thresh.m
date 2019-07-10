@@ -185,7 +185,7 @@ for J = Jcurrent:(Jmax-1)
     end
     
     %Implements the bootstrap
-    if type == -1s
+    if type == -1
         [ est , estwas, trueval, top_lm_indices ] = t4lmbias(1, B, data, Sig, subject_mask, threshold, use_para);
     elseif type == 0
         threshold = 2;
