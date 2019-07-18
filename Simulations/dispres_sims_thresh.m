@@ -1,4 +1,4 @@
-function out = dispres_sims_thresh( type, groupsize, FWHM, printres )
+function out = dispres_sims_thresh( type, groupsize, FWHM, ES, printres )
 % dispres_sims_thresh( type, groupsize, std_dev, FWHM, version, printres )
 % displays a summary of the results obtained for a set of different possible options.
 %--------------------------------------------------------------------------
@@ -27,6 +27,12 @@ if nargin < 3
     FWHM = 3;
 end
 if nargin < 4
+    ES = NaN;
+else 
+    ES = 100*ES;
+    ESstr = ['_ES',num2str(ES)];
+end
+if nargin < 5
     printres = 1;
 end
 
@@ -54,6 +60,7 @@ elseif strcmp(type, 'R2')
 else
     error('This type is not stored')
 end
+filestart = [filestart, ESstr];
 
 try
     tempo = load(strcat(SIbootstrap_loc,'/Simulations/', filestart));
