@@ -18,15 +18,15 @@ end
 std_dev = 1;
 FWHM = 3;
 
-if strcmp(type, 'R2')
-    [effectsizescale, ~] = matchsimspowerCD2R2( effectsize, nsubj );
-else
-    effectsizescale = effectsize;
+if strcmp(type, 't4lm') || strcmp(type, 'mean')
+%     [effectsizescale, ~] = matchsimspowerCD2R2( effectsize, nsubj );
+    std_dev = 0.5/effectsize;
+    effectsize = 0.5;
 end
 %We'll take CD = 0.1:0.1:0.6;
 
 for Jmax = 1:sim_tot
-    calcests_sims_thresh(type, nsubj, Jmax, FWHM, std_dev, B, effectsizescale)
+    calcests_sims_thresh(type, nsubj, Jmax, FWHM, std_dev, B, effectsize)
 end
 
 end

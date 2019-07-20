@@ -1,4 +1,4 @@
-function calcests_sims_thresh(type, groupsize, Jmax, FWHM, std_dev, B, effectsizescale, use_para)
+function calcests_sims_thresh(type, groupsize, Jmax, FWHM, std_dev, B, effectsize, use_para)
 % CALCESTS_SIMS_THRESH(type, groupsize, Jmax, FWHM, std_dev, B, use_parasix32)
 % returns the estimates obtained under bootstrapping.
 %--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ if nargin < 6
     B = 50;
 end
 if nargin < 7
-    effectsizescale = 1;
+    effectsize = 0.5;
 end
 if nargin < 8
     use_para = 0;
@@ -58,27 +58,28 @@ end
 if strcmp(type, 'mean')
     type = 0;
 %     Mag = [2,4,4];
-    Mag = [4,8,8]*effectsizescale;
+    Mag = [4,8,8]*effectsize;
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[20,30,20], [40,70,40], [40, 70, 70]} );
     filestart = strcat('meanThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring,'nsubj',num2str(nSubj),'SIMS','version2');
 elseif strcmp(type, 'tstat') || strcmp(type, 't')
     type = 1;
 %     Mag = [1, repmat(0.5, 1, 8)];
-    Mag = repmat(effectsizescale, 1, 9);
+    Mag = repmat(effectsize, 1, 9);
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
 elseif strcmp(type, 't4lm')
     type = -1;
 %     Mag = [1, repmat(0.5, 1, 8)];
-    Mag = repmat(effectsizescale, 1, 9);
+    Mag = repmat(effectsize, 1, 9);
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
     filestart = strcat('t4lmThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
 elseif strcmp(type, 'R2') || strcmp(type, 'R2')
     type = 2;
 %     Mag = 0.5822*ones(1, 9);
-    Mag = effectsizescale*ones(1, 9);
+    beta = sqrt(effectsize/(1-effectsize)); %effectsize should be inputted in R^2!
+    Mag = beta*ones(1, 9);
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
     contrast = [0,1];
@@ -90,7 +91,7 @@ Sig = Sig(:)'; %Vectorize the Signal matrix
 
 
 %Set up file processing stuff.
-file_init = strcat('B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS_ES', num2str(100*effectsizescale));
+file_init = strcat('B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS_ES', num2str(100*effectsize));
 if type == 1
     filestart = strcat('tstatThresh/',file_init);
 elseif type == 2
