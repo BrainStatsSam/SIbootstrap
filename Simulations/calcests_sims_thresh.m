@@ -74,7 +74,7 @@ elseif strcmp(type, 't4lm')
     Mag = repmat(effectsize, 1, 9);
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
-    filestart = strcat('t4lmThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
+    filestart = strcat('t4lmThresh/','B', num2str(B),'sd',num2str(round(std_dev*100)),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
 elseif strcmp(type, 'R2') || strcmp(type, 'R2')
     type = 2;
 %     Mag = 0.5822*ones(1, 9);
