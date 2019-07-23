@@ -1,4 +1,4 @@
-%% Code to generate Figures 5, 7, S1 and S2
+%% Code to generate the variance simulation figures for Reviewer 2
 % export_fig is required in order to save the images. 
 
 global def_col %Need to load startup.m for this to work.
@@ -8,8 +8,6 @@ if isempty(SIbootstrap_loc) || isempty(def_col)
 end
 
 nsubj = 50;
-ES_values = 0.1:0.1:0.7;
-nentries = length(ES_values);
 K = 0;
 pos_vector = [0,550,800,533];
 
@@ -18,7 +16,14 @@ corresponding_figure = {'A'};
 
 
 % {'mean','tstat', 't4lm', 'R2'};
-for type = {'tstat'}
+for type = {'R2'}
+    if strcmp(type{1}, 'R2')
+        ES_values = 0.05:0.05:0.3;
+    elseif strcmp(type{1}, 'tstat')
+        ES_values = 0.1:0.1:0.7;
+    end
+    nentries = length(ES_values);
+    
     K = K+1;
     for FWHM = 3
         isbias = zeros(1, nentries);

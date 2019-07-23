@@ -65,6 +65,7 @@ filestart = [filestart, ESstr];
 try
     tempo = load(strcat(SIbootstrap_loc,'/Simulations/', filestart));
     nct = 0;
+    a = 1
 catch
     error('Those variables stored or repo_loc is misspecified')
 end
@@ -105,6 +106,7 @@ trueatloc = A(:,5);
 if isempty(B)
     trueatlocis = NaN;
 else
+%     trueatlocis = sqrt(B(:,4));
     trueatlocis = B(:,4);
 end
 

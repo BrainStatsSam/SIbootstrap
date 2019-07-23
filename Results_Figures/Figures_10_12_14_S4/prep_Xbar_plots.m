@@ -143,7 +143,7 @@ if strcmp(type, 'mean')
         out.xtick = -0.25:0.25:1.4;
     elseif groupsize == 50
         out.xtick =  0.6:0.2:1.4;
-    elseif groupsize == 100;
+    elseif groupsize == 100
         out.xtick =  0.8:0.2:1.4;
     end
 elseif strcmp(type, 't4lm')
