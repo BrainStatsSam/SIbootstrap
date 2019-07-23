@@ -61,20 +61,23 @@ if strcmp(type, 'mean')
     Mag = [4,8,8]*effectsize;
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[20,30,20], [40,70,40], [40, 70, 70]} );
-    filestart = strcat('meanThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring,'nsubj',num2str(nSubj),'SIMS','version2');
+%     filestart = strcat('meanThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring,'nsubj',num2str(nSubj),'SIMS','version2');
+    sd_str = num2str(std_dev);
 elseif strcmp(type, 'tstat') || strcmp(type, 't')
     type = 1;
 %     Mag = [1, repmat(0.5, 1, 8)];
     Mag = repmat(effectsize, 1, 9);
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
+    sd_str = num2str(std_dev);
 elseif strcmp(type, 't4lm')
     type = -1;
 %     Mag = [1, repmat(0.5, 1, 8)];
     Mag = repmat(effectsize, 1, 9);
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[45.5, 54.5, 45.5], [20,20,20], [71,20,20], [20,20,71], [20,89,20], [71,89,20], [71,20, 71], [20, 89, 71], [71, 89, 71]} );
-    filestart = strcat('t4lmThresh/','B', num2str(B),'sd',num2str(round(std_dev*100)),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
+    sd_str = num2str(round(std_dev*100));
+%     filestart = strcat('t4lmThresh/','B', num2str(B),'sd',sd_str,'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS');
 elseif strcmp(type, 'R2') || strcmp(type, 'R2')
     type = 2;
 %     Mag = 0.5822*ones(1, 9);
@@ -86,12 +89,13 @@ elseif strcmp(type, 'R2') || strcmp(type, 'R2')
     true_f2 = Sig.^2;
     true_R2 = true_f2./(1+true_f2);
     true_R2 = true_R2(:)';
+    sd_str = num2str(std_dev);
 end
 Sig = Sig(:)'; %Vectorize the Signal matrix
 
 
 %Set up file processing stuff.
-file_init = strcat('B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS_ES', num2str(100*effectsize));
+file_init = strcat('B', num2str(B),'sd',sd_str,'FWHM', fwhmstring, 'nsubj',num2str(nSubj),'SIMS_ES', num2str(100*effectsize));
 if type == 1
     filestart = strcat('tstatThresh/',file_init);
 elseif type == 2
