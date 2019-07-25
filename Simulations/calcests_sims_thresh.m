@@ -58,7 +58,7 @@ end
 if strcmp(type, 'mean')
     type = 0;
 %     Mag = [2,4,4];
-    Mag = [4,8,8]*effectsize;
+    Mag = [2,4,4]*effectsize;
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[20,30,20], [40,70,40], [40, 70, 70]} );
 %     filestart = strcat('meanThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring,'nsubj',num2str(nSubj),'SIMS','version2');
