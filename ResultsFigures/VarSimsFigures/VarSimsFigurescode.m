@@ -15,12 +15,15 @@ pos_vector = [0,550,800,533];
 corresponding_figure = {'A'};
 
 
+
 % {'mean','tstat', 't4lm', 'R2'};
-for type = {'R2'}
+for type = {'R2', 'tstat'}
     if strcmp(type{1}, 'R2')
         ES_values = 0.05:0.05:0.3;
+        x_ax_label = 'Peak partial R^2';
     elseif strcmp(type{1}, 'tstat')
         ES_values = 0.1:0.1:0.7;
+        x_ax_label = 'Peak Cohen''s d';
     end
     nentries = length(ES_values);
     
@@ -66,43 +69,43 @@ for type = {'R2'}
         hold on
         plot( ES_values, isbias, 'linewidth', 2,'Color', def_col('blue'))
         plot( ES_values, bootbias, 'linewidth', 2,'Color', def_col('yellow'))
-        xlabel('Sample Size: N')
+        xlabel(x_ax_label)
         ylabel('Bias')
         xlim([ES_values(1),ES_values(end)])
-        title('Bias versus Sample Size')
+        title('Bias versus peak effect size')
         %             if groupsize == 20
         legend('Circular', 'Data-Splitting', 'Bootstrap' )
         %             end
         set(gca,'fontsize', 20)
         set(gcf, 'position', pos_vector)
-        export_fig([SIbootstrap_loc,'Results_Figures/VarSimsFigures/', type{1},'_bias'], '-transparent')
+        export_fig([SIbootstrap_loc,'ResultsFigures/VarSimsFigures/', type{1},'_bias'], '-transparent')
         
         clf
         plot( ES_values, naivermse, 'linewidth', 2, 'Color', def_col('red'))
         hold on
         plot( ES_values, isrmse, 'linewidth', 2,'Color', def_col('blue'))
         plot( ES_values, bootrmse, 'linewidth', 2,'Color', def_col('yellow'))
-        xlabel('Sample Size: N')
+        xlabel(x_ax_label)
         ylabel('RMSE')
         xlim([ES_values(1), ES_values(end)])
-        title(['RMSE versus Sample Size'])
+        title(['RMSE versus peak effect size'])
 %         legend('Circular', 'Data-Splitting', 'Bootstrap' )
         set(gca,'fontsize', 20)
         set(gcf, 'position', pos_vector)
-        export_fig([SIbootstrap_loc,'Results_Figures/VarSimsFigures/', type{1},'_rmse'], '-transparent')
+        export_fig([SIbootstrap_loc,'ResultsFigures/VarSimsFigures/', type{1},'_rmse'], '-transparent')
         
         clf
         plot( ES_values, naivesd, 'linewidth', 2, 'Color', def_col('red'))
         hold on
         plot( ES_values, issd, 'linewidth', 2, 'Color', def_col('blue'))
         plot( ES_values, bootsd, 'linewidth', 2,'Color', def_col('yellow'))
-        xlabel('Sample Size: N')
+        xlabel(x_ax_label)
         ylabel('Standard Deviation')
         xlim([ES_values(1),ES_values(end)])
-        title('Standard Deviation versus Sample Size')
+        title('Standard Deviation versus peak effect size')
 %         legend('Circular', 'Data-Splitting', 'Bootstrap' )
         set(gca,'fontsize', 20)
         set(gcf, 'position', pos_vector)
-        export_fig([SIbootstrap_loc,'Results_Figures/VarSimsFigures/', type{1},'_std'], '-transparent')
+        export_fig([SIbootstrap_loc,'ResultsFigures/VarSimsFigures/', type{1},'_std'], '-transparent')
     end
 end
