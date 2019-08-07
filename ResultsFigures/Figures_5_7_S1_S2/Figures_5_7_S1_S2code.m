@@ -14,7 +14,7 @@ pos_vector = [0,550,800,533];
 
 corresponding_figure = {'S1', '5', '7', 'S2'};
 
-for type = {'mean','tstat', 't4lm', 'R2'};
+for type = {'mean','tstat', 't4lm', 'R2'}
     K = K+1;
     for FWHM = 3
         isbias = zeros(1, nentries);
@@ -60,13 +60,13 @@ for type = {'mean','tstat', 't4lm', 'R2'};
         xlabel('Sample Size: N')
         ylabel('Bias')
         xlim([subject_list(1),subject_list(end)])
-        title('Bias versus Sample Size')
+        title('Bias vs Sample Size')
         %             if groupsize == 20
         legend('Circular', 'Data-Splitting', 'Bootstrap' )
         %             end
         set(gca,'fontsize', 20)
         set(gcf, 'position', pos_vector)
-        export_fig([SIbootstrap_loc,'Results_Figures/Figures_5_7_S1_S2/Figure_', corresponding_figure{K},'_bias'], '-transparent')
+        export_fig([SIbootstrap_loc,'ResultsFigures/Figures_5_7_S1_S2/Figure_', corresponding_figure{K},'_bias'], '-transparent')
         
         
         clf
@@ -77,11 +77,11 @@ for type = {'mean','tstat', 't4lm', 'R2'};
         xlabel('Sample Size: N')
         ylabel('RMSE')
         xlim([subject_list(1), subject_list(end)])
-        title(['RMSE versus Sample Size'])
+        title(['RMSE vs Sample Size'])
 %         legend('Circular', 'Data-Splitting', 'Bootstrap' )
         set(gca,'fontsize', 20)
         set(gcf, 'position', pos_vector)
-        export_fig([SIbootstrap_loc,'Results_Figures/Figures_5_7_S1_S2/Figure_', corresponding_figure{K},'_rmse'], '-transparent')
+        export_fig([SIbootstrap_loc,'ResultsFigures/Figures_5_7_S1_S2/Figure_', corresponding_figure{K},'_rmse'], '-transparent')
         
         
         clf
@@ -92,10 +92,10 @@ for type = {'mean','tstat', 't4lm', 'R2'};
         xlabel('Sample Size: N')
         ylabel('Standard Deviation')
         xlim([subject_list(1),subject_list(end)])
-        title('Standard Deviation versus Sample Size')
+        title('Standard Deviation vs Sample Size')
 %         legend('Circular', 'Data-Splitting', 'Bootstrap' )
         set(gca,'fontsize', 20)
         set(gcf, 'position', pos_vector)
-        export_fig([SIbootstrap_loc,'Results_Figures/Figures_5_7_S1_S2/Figure_', corresponding_figure{K},'_std'], '-transparent')
+        export_fig([SIbootstrap_loc,'ResultsFigures/Figures_5_7_S1_S2/Figure_', corresponding_figure{K},'_std'], '-transparent')
     end
 end

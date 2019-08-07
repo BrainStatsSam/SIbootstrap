@@ -37,7 +37,7 @@ if isempty(SIbootstrap_loc) || isempty(def_col)
     error('SIbootstrap_loc and def_col must be defined by running startup.m')
 end
 
-saveloc = [SIbootstrap_loc, 'Results_Figures/Figures_10_12_14_S4/'];
+saveloc = [SIbootstrap_loc, 'ResultsFigures/Figures_10_12_14_S4/'];
 
 out = prep_Xbar_plots( type, groupsize, thresh, no_axis_limits );
 type = out.type;

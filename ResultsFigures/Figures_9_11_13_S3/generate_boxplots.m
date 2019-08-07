@@ -119,7 +119,7 @@ ylabel(label_for_y_axis, 'FontSize', 20)
 h = gca;
 h.XRuler.TickLength = 0;
 
-export_fig([SIbootstrap_loc, 'Results_Figures/Figures_9_11_13_S3/Figure_', corresponding_figure,'_bias.pdf'], '-transparent')
+export_fig([SIbootstrap_loc, 'ResultsFigures/Figures_9_11_13_S3/Figure_', corresponding_figure,'_bias.pdf'], '-transparent')
 
 end
 
