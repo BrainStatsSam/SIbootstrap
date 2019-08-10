@@ -24,7 +24,7 @@ if nargin < 3
     error('Jmax undefined!')
 end
 if nargin < 4
-    FWHM = 6;
+    FWHM = 3;
 end
 if nargin < 5
     std_dev = 1;
