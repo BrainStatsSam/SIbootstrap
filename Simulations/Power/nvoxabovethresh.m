@@ -39,6 +39,7 @@ std_dev = 1;
 
 nvox = 0;
 for sim = 1:nsims
+    sim
     noise = noisegen(stdsize, nsubj, FWHM, 3 );
     data = zeros([nsubj, stdsize]);
     for I = 1:nsubj
