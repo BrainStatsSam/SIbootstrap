@@ -15,15 +15,36 @@ pos_vector = [0,550,800,533];
 corresponding_figure = {'A'};
 
 
-
 % {'mean','tstat', 't4lm', 'R2'};
-for type = {'R2', 'tstat'}
-    if strcmp(type{1}, 'R2')
+for type = {'meanSD','t4lm', 'R250', 'R2100', 'tstat'}
+% for type = {'meanSD'}
+    typo = type{1};
+    if strcmp(typo(1:2), 'R2')
+        nsubj = str2double(typo(3:end));
+        typo = 'R2';
         ES_values = 0.05:0.05:0.3;
         x_ax_label = 'Peak partial R^2';
-    elseif strcmp(type{1}, 'tstat')
+        stddevs = ones(length(ES_values));
+    elseif strcmp(typo, 'tstat')
+        nsubj = 50;
         ES_values = 0.1:0.1:0.7;
         x_ax_label = 'Peak Cohen''s d';
+        stddevs = ones(length(ES_values));
+    elseif strcmp(typo, 't4lm')
+        nsubj = 50;
+        ES_values = 0.1:0.1:0.7;
+        stddevs = round(0.5./ES_values*100);
+        ES_values = 0.5*ones(1, length(ES_values)); %Need to change to 0.5 in the new simulations.
+        x_ax_label = 'Peak Cohen''s d';
+     elseif strcmp(typo, 'meanSD')
+        nsubj = 50;
+        ES_values = 0.1:0.1:0.7;
+        stddevs = round(0.5./ES_values*100);
+        stddevs_xaxis = 0.5./ES_values;
+        ES_values = 1*ones(1, length(ES_values)); %Need to change to 0.5 in the new simulations.
+        x_ax_label = 'Inverse Standard Deviation';
+    else
+        nsubj = 50;
     end
     nentries = length(ES_values);
     
@@ -38,7 +59,7 @@ for type = {'R2', 'tstat'}
         
         for I = 1:nentries
             try
-                out = dispres_sims_thresh(type{1}, nsubj, FWHM, ES_values(I));
+                out = dispres_sims_thresh(typo, nsubj, FWHM, ES_values(I), stddevs(I));
 %                 out = dispres_sims_thresh(type{1}, subject_list(I), s, FWHM, version, 0 , 0);
                 I
                 isbias(I) = mean(out.biasis);
@@ -60,6 +81,12 @@ for type = {'R2', 'tstat'}
             end
         end
         
+        if strcmp(typo, 't4lm')
+            ES_values = 0.1:0.1:0.7;
+        elseif strcmp(typo, 'meanSD') 
+            ES_values = 1./stddevs_xaxis;
+        end
+        
         bootsd = (bootrmse.^2 - bootbias.^2);
         naivesd = (naivermse.^2 - naivebias.^2);
         issd = (isrmse.^2 - isbias.^2);
@@ -72,13 +99,19 @@ for type = {'R2', 'tstat'}
         xlabel(x_ax_label)
         ylabel('Bias')
         xlim([ES_values(1),ES_values(end)])
-        title('Bias versus peak effect size')
+        title('Bias vs peak effect size')
+        if strcmp(typo, 't4lm')
+            ylim([0,1.5]);
+        elseif strcmp(typo, 'meanSD')
+            ylim([-0.1,2.2]);
+            title('Bias vs 1/\sigma')
+        end
         %             if groupsize == 20
         legend('Circular', 'Data-Splitting', 'Bootstrap' )
         %             end
         set(gca,'fontsize', 20)
         set(gcf, 'position', pos_vector)
-        export_fig([SIbootstrap_loc,'ResultsFigures/VarSimsFigures/', type{1},'_bias'], '-transparent')
+        export_fig([SIbootstrap_loc,'ResultsFigures/VarSimsFigures/', typo,'_', num2str(nsubj), '_bias'], '-transparent')
         
         clf
         plot( ES_values, naivermse, 'linewidth', 2, 'Color', def_col('red'))
@@ -88,11 +121,18 @@ for type = {'R2', 'tstat'}
         xlabel(x_ax_label)
         ylabel('RMSE')
         xlim([ES_values(1), ES_values(end)])
-        title(['RMSE versus peak effect size'])
+        ylim([0, max([naivermse, isrmse, bootrmse])])
+        title(['RMSE vs peak effect size'])
+        if strcmp(typo, 't4lm')
+            ylim([0,2]);
+        elseif strcmp(typo, 'meanSD')
+            ylim([0,1]);
+            title('RMSE vs 1/\sigma')
+        end
 %         legend('Circular', 'Data-Splitting', 'Bootstrap' )
         set(gca,'fontsize', 20)
         set(gcf, 'position', pos_vector)
-        export_fig([SIbootstrap_loc,'ResultsFigures/VarSimsFigures/', type{1},'_rmse'], '-transparent')
+        export_fig([SIbootstrap_loc,'ResultsFigures/VarSimsFigures/',typo,'_', num2str(nsubj),'_rmse'], '-transparent')
         
         clf
         plot( ES_values, naivesd, 'linewidth', 2, 'Color', def_col('red'))
@@ -101,11 +141,21 @@ for type = {'R2', 'tstat'}
         plot( ES_values, bootsd, 'linewidth', 2,'Color', def_col('yellow'))
         xlabel(x_ax_label)
         ylabel('Standard Deviation')
+        title('Standard Deviation vs peak effect size')
+        if strcmp(typo, 't4lm')
+            ylim([0,0.4]);
+        elseif strcmp(typo, 'R2')
+            ylim([0,max([naivesd, issd, bootsd])]);
+        elseif strcmp(typo, 'meanSD')
+            ylim([0,0.3]);
+            title('Standard Deviation vs 1/\sigma')
+        end
+        
         xlim([ES_values(1),ES_values(end)])
-        title('Standard Deviation versus peak effect size')
+        
 %         legend('Circular', 'Data-Splitting', 'Bootstrap' )
         set(gca,'fontsize', 20)
         set(gcf, 'position', pos_vector)
-        export_fig([SIbootstrap_loc,'ResultsFigures/VarSimsFigures/', type{1},'_std'], '-transparent')
+        export_fig([SIbootstrap_loc,'ResultsFigures/VarSimsFigures/', typo,'_', num2str(nsubj),'_std'], '-transparent')
     end
 end

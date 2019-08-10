@@ -62,5 +62,5 @@ for type = type_set
     
     ylim(av_ylims(type{1}))
     set(gcf, 'position', [500,500,width,500])
-    export_fig([SIbootstrap_loc, 'Results_Figures/Figure_8/Fig8.pdf'], '-transparent')
+    export_fig([SIbootstrap_loc, 'ResultsFigures/Figure_8/Fig8.pdf'], '-transparent')
 end

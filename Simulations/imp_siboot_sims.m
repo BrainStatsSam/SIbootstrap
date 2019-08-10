@@ -18,10 +18,13 @@ end
 std_dev = 1;
 FWHM = 3;
 
-if strcmp(type, 't4lm') || strcmp(type, 'mean') || strcmp(type, 'mean2')
+if  strcmp(type, 'mean') || strcmp(type, 'mean2')
 %     [effectsizescale, ~] = matchsimspowerCD2R2( effectsize, nsubj );
     std_dev = 0.5/effectsize;
     effectsize = 1;
+elseif strcmp(type, 't4lm')
+    std_dev = 0.5/effectsize;
+    effectsize = 0.5;
 end
 %We'll take CD = 0.1:0.1:0.6;
 

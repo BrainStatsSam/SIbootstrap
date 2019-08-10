@@ -7,7 +7,7 @@ if isempty(SIbootstrap_loc) || isempty(def_col)
     error('SIbootstrap_loc and def_col must be defined by running startup.m')
 end
 
-save_loc = [SIbootstrap_loc, 'Results_Figures/Figures_9_11_13_S3/'];
+save_loc = [SIbootstrap_loc, 'ResultsFigures/Figures_9_11_13_S3/'];
 
 %%
 type = 'mean';
