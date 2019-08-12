@@ -61,7 +61,7 @@ for sim = 1:nsims
         data = loadsubs((sim-1)*nsubj+1:sim*nsubj, 1, 0);
         fwhm_est = est_smooth(reshape(data', [91,109,91, nsubj]));
         resel_vec = spm_resels_vol(mask, fwhm_est)';
-        threshold = spm_uc( 0.05, [1,(nSubj-1)], 'T', resel_vec, 1 );
+        threshold = spm_uc( 0.05, [1,(nsubj-1)], 'T', resel_vec, 1 );
     end
     
     onesamplet = mvtstat(data);
