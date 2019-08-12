@@ -1,4 +1,4 @@
-function [ nvox, avnvox ] = nvoxabovethresh( nsubj, nsims, version )
+function [ nvox, avnvox ] = nvoxabovethresh( nsubj, version, nsims )
 % nvoxabovethresh( type, nsubj ) runs the simulations to calculate the
 % number of voxels that lie above a given threshold.
 %--------------------------------------------------------------------------
@@ -13,19 +13,20 @@ function [ nvox, avnvox ] = nvoxabovethresh( nsubj, nsims, version )
 %           across all simulations
 %--------------------------------------------------------------------------
 % EXAMPLES
-% 
+% nvoxabovethresh( nsubj, 1
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport.
 if nargin < 2
-    nsims = 1000;
+    version = 'Sims';
 end
 if nargin < 3
-    version = 'Sims';
+    nsims = 1000;
 end
 FWHM = 3;
 stdsize = [91,109,91];
 
 global SIloc
+global server_dir
 if strcmp(version, 'Sims') || strcmp(version, 'sims')
     Mag = repmat(0.5, 1, 9); %Main simulation setting
     Rad = 10;
@@ -33,7 +34,6 @@ if strcmp(version, 'Sims') || strcmp(version, 'sims')
     % end
     Sig = Sig(:)';
     
-    global server_dir
     server_addon = [server_dir, 'SIbootstrap/Simulations/'];
     
     load([server_addon,'Thresholds/store_thresh_nsubj.mat'])
