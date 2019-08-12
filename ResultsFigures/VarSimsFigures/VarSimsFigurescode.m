@@ -101,7 +101,7 @@ for type = {'meanSD','t4lm', 'R250', 'R2100', 'tstat'}
         xlim([ES_values(1),ES_values(end)])
         title('Bias vs peak effect size')
         if strcmp(typo, 't4lm')
-            ylim([0,1.5]);
+            ylim([-0.1,1.5]);
         elseif strcmp(typo, 'meanSD')
             ylim([-0.1,2.2]);
             title('Bias vs 1/\sigma')
