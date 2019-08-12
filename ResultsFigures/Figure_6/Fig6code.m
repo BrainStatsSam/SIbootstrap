@@ -39,4 +39,4 @@ legend('Bootstrap/Circular', 'Data-Splitting', 'Location', 'NorthWest')
 set(gca,'fontsize', 20)
 
 %% Plot saving:
-export_fig([SIbootstrap_loc, 'Results_Figures/Figure_6/Fig6.pdf'], '-transparent')
+export_fig([SIbootstrap_loc, 'ResultsFigures/Figure_6/Fig6.pdf'], '-transparent')

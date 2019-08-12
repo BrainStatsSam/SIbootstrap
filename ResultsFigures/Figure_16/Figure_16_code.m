@@ -7,7 +7,7 @@ if isempty(SIbootstrap_loc) || isempty(def_col)
     error('SIbootstrap_loc and def_col must be defined by running startup.m')
 end
 
-save_loc = [SIbootstrap_loc, 'Results_Figures/Figure_16/'];
+save_loc = [SIbootstrap_loc, 'ResultsFigures/Figure_16/'];
 
 %%
 clf

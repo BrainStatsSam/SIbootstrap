@@ -170,7 +170,7 @@ end
 global SIbootstrap_loc
 global def_col
 groupsize_str = num2str(groupsize);
-saveloc = [SIbootstrap_loc, 'Results_Figures/CircvsBootFigures/'];
+saveloc = [SIbootstrap_loc, 'ResultsFigures/CircvsBootFigures/'];
 filestart = [saveloc, 'circvsboot_nsubj', groupsize_str];
 
 %% Generate Plot

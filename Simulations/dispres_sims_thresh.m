@@ -1,4 +1,4 @@
-function out = dispres_sims_thresh( type, groupsize, FWHM, ES, printres )
+function out = dispres_sims_thresh( type, groupsize, FWHM, ES, std_dev, printres )
 % dispres_sims_thresh( type, groupsize, std_dev, FWHM, version, printres )
 % displays a summary of the results obtained for a set of different possible options.
 %--------------------------------------------------------------------------
@@ -28,11 +28,15 @@ if nargin < 3
 end
 if nargin < 4
     ES = NaN;
+    ESstr = '';
 else 
     ES = 100*ES;
     ESstr = ['_ES',num2str(ES)];
 end
 if nargin < 5
+    std_dev = 1;
+end
+if nargin < 6
     printres = 1;
 end
 
@@ -48,13 +52,14 @@ else
     FWHM = num2str(FWHM);
 end
 
-std_dev = 1;
 if strcmp(type, 'tstat')
     filestart = strcat('tstatThresh/B100sd',num2str(std_dev),'FWHM', FWHM, 'nsubj',num2str(groupsize),'SIMS');
 elseif strcmp(type, 't4lm')
     filestart = strcat('t4lmThresh/B100sd',num2str(std_dev),'FWHM', FWHM, 'nsubj',num2str(groupsize),'SIMS');
 elseif strcmp(type, 'mean')
     filestart = strcat('meanThresh/B100sd',num2str(std_dev),'FWHM', FWHM, 'nsubj',num2str(groupsize),'SIMSversion2');
+elseif strcmp(type, 'meanSD')
+    filestart = strcat('meanThresh/B100sd',num2str(std_dev),'FWHM', FWHM, 'nsubj',num2str(groupsize),'SIMS');
 elseif strcmp(type, 'R2')
     filestart = strcat('R2Thresh/B100sd',num2str(std_dev),'FWHM', FWHM, 'nsubj',num2str(groupsize),'SIMS');
 else
