@@ -62,7 +62,7 @@ if strcmp(type, 'mean')
     Rad = 10;
     Sig = gensig( Mag, Rad, 6, stdsize, {[20,30,20], [40,70,40], [40, 70, 70]} );
 %     filestart = strcat('meanThresh/','B', num2str(B),'sd',num2str(std_dev),'FWHM', fwhmstring,'nsubj',num2str(nSubj),'SIMS','version2');
-    sd_str = num2str(std_dev);
+    sd_str = num2str(round(std_dev*100));
 elseif strcmp(type, 'tstat') || strcmp(type, 't')
     type = 1;
 %     Mag = [1, repmat(0.5, 1, 8)];
