@@ -173,7 +173,7 @@ groupsize_str = num2str(groupsize);
 saveloc = [SIbootstrap_loc, 'ResultsFigures/CircvsBootFigures/'];
 filestart = [saveloc, 'circvsboot_nsubj', groupsize_str];
 
-%% Generate Plot
+%% Generate Boot vs Circ Plot
 axis_font_size = 25;
 
 transplot(out.naive, out.boot, out.circ_size_naive, out.trans_level, def_col('red'))
@@ -190,6 +190,25 @@ title(['N = ', groupsize_str])
 set(gcf, 'position', [500,500,out.height, out.width])
 set(gca, 'XTick',out.xtick)
 % export_fig([filestart,'.tif'], '-transparent')
+
+%% Generate True vs Circ Plot
+axis_font_size = 25;
+
+transplot(out.naive, out.truenaiveboot, out.circ_size_naive, out.trans_level, def_col('yellow'))
+
+xlabel(label_for_x)
+ylabel(label_for_y)
+xlim(out.xlims_naive)
+ylim(out.ylims_naive)
+set(0,'defaultAxesFontSize', axis_font_size);
+abline(0,1,'color',[1,1,1]/2,'linestyle', '-', 'linewidth', 2)
+% title(['N = ', groupsize_str,': Circular versus Bootstrap'])
+title(['N = ', groupsize_str])
+
+set(gcf, 'position', [500,500,out.height, out.width])
+set(gca, 'XTick',out.xtick)
+
+%% Generate Average comparison plot
 
 end
 

@@ -16,8 +16,8 @@ corresponding_figure = {'A'};
 
 
 % {'mean','tstat', 't4lm', 'R2'};
-for type = {'meanSD','t4lm', 'R250', 'R2100', 'tstat'}
-% for type = {'meanSD'}
+% for type = {'meanSD','t4lm50', 't4lm100','R250', 'R2100', 'tstat'}
+for type = {'t4lm100'}
     typo = type{1};
     if strcmp(typo(1:2), 'R2')
         nsubj = str2double(typo(3:end));
@@ -30,8 +30,9 @@ for type = {'meanSD','t4lm', 'R250', 'R2100', 'tstat'}
         ES_values = 0.1:0.1:0.7;
         x_ax_label = 'Peak Cohen''s d';
         stddevs = ones(length(ES_values));
-    elseif strcmp(typo, 't4lm')
-        nsubj = 50;
+    elseif strcmp(typo(1:4), 't4lm')
+        nsubj = str2double(typo(5:end));
+        typo = 't4lm';
         ES_values = 0.1:0.1:0.7;
         stddevs = round(0.5./ES_values*100);
         ES_values = 0.5*ones(1, length(ES_values)); %Need to change to 0.5 in the new simulations.
