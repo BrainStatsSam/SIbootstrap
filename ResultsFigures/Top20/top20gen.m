@@ -1,4 +1,4 @@
-%% Code to generate the barplots for Figures 9, 11, 13 and S3
+%% Code to generate Figures S7, S8.
 
 global def_col %Need to load startup.m for this to work.
 global SIbootstrap_loc %Needs to be set via startup.m
