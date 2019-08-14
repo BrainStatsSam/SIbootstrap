@@ -17,7 +17,7 @@ corresponding_figure = {'A'};
 
 % {'mean','tstat', 't4lm', 'R2'};
 % for type = {'meanSD','t4lm50', 't4lm100','R250', 'R2100', 'tstat'}
-for type = {'t4lm100'}
+for type = {'meanSD', 't4lm100'}
     typo = type{1};
     if strcmp(typo(1:2), 'R2')
         nsubj = str2double(typo(3:end));
