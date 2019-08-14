@@ -9,6 +9,9 @@ end
 save_loc = [SIbootstrap_loc, 'ResultsFigures/Top20/'];
 
 %%
+axis_font_size = 25;
+set(0,'defaultAxesFontSize', axis_font_size);
+
 % corresponding_figure = 'S3';
 pos_vector = [0,550,1200,1000];
 npeaks = 15;
@@ -82,21 +85,29 @@ for types = {'tstat', 't4lm', 'R2'}
     end
     if strcmp(type, 'tstat')
         yaxis_units = 'Cohen''s d';
+        title_beg = 'One Sample Cohen''s d';
     elseif strcmp(type, 'R2')
-        yaxis_units = 'R^2';
+        yaxis_units = 'partial R^2';
+        title_beg = 'R^2';
     elseif strcmp(type, 't4lm') || strcmp(type, 'mean')
         yaxis_units = '% BOLD';
+        title_beg = 'One Sample Mean';
     end
     
     h = plot(1:npeaks, bias_plots, 'Linewidth', 4);
     set(h, {'color'}, {def_col('yellow'); def_col('red'); def_col('yellow'); def_col('red')});
     set(h, {'LineStyle'}, {':'; ':';'-';'-'});
-    legend('Bootstrap: N = 50', 'Circular: N = 50', 'Bootstrap: N = 100', 'Circular: N = 100')
+    if strcmp(type, 'tstat')
+        legend('Bootstrap: N = 50', 'Circular: N = 50', 'Bootstrap: N = 100', 'Circular: N = 100')
+    elseif strcmp(type, 'R2')
+        legend('Bootstrap: N = 100', 'Circular: N = 100', 'Bootstrap: N = 150', 'Circular: N = 150')
+    end
     xlim([1,npeaks])
     xticks(1:npeaks)
-    title(['Bias versus peak rank for N=',num2str(nsubj_vec(1)),' and ',num2str(nsubj_vec(2))])
-    xlabel('nth largest peak')
-    ylabel(['Bias in ', yaxis_units]);
+%     title(['Bias versus peak rank for N=',num2str(nsubj_vec(1)),' and ',num2str(nsubj_vec(2))])
+    title([title_beg, ' bias versus peak rank'])
+    xlabel('n (the index of the peak rank)')
+    ylabel(['Bias_n in ', yaxis_units]);
     set(gcf, 'position', pos_vector)
     export_fig([filename,'_top_bias'], '-transparent')
     
@@ -117,9 +128,10 @@ for types = {'tstat', 't4lm', 'R2'}
     xlim([1,npeaks])
     ylim(rsme_ylimit)
     xticks(1:npeaks)
-    title(['RMSE versus peak rank for N=',num2str(nsubj_vec(1)),' and ',num2str(nsubj_vec(2))])
-    xlabel('nth largest peak')
-    ylabel(['RMSE in ', yaxis_units]);
+%     title(['RMSE versus peak rank for N=',num2str(nsubj_vec(1)),' and ',num2str(nsubj_vec(2))])
+    title([title_beg, ' RMSE versus peak rank'])
+    xlabel('n (the index of the peak rank)')
+    ylabel(['RMSE_n in ', yaxis_units]);
     set(gcf, 'position', pos_vector)
     export_fig([filename,'_top_rmse'], '-transparent')
 end
