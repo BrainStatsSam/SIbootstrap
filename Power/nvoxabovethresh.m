@@ -13,7 +13,8 @@ function [ nvox, avnvox ] = nvoxabovethresh( nsubj, version, nsims )
 %           across all simulations
 %--------------------------------------------------------------------------
 % EXAMPLES
-% nvoxabovethresh( nsubj, 1
+% nsubj = 10; version = 'normal'; nsims = 1;
+% nvoxabovethresh( nsubj, version, nsims )
 %--------------------------------------------------------------------------
 % AUTHOR: Sam Davenport.
 if nargin < 2
@@ -51,6 +52,7 @@ end
 nvox = 0;
 sim = 0;
 save(saveloc, 'nvox', 'sim')
+clear sim
 for sim = 1:nsims
     sim
     load(saveloc)
