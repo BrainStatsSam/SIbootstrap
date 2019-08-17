@@ -52,10 +52,11 @@ end
 nvox = 0;
 sim = 0;
 save(saveloc, 'nvox', 'sim')
-clear sim
+
 for sim = 1:nsims
     sim
-    load(saveloc)
+    loadin = load(saveloc, 'nvox');
+    nvox = loadin.nvox;
     if strcmp(version, 'Sims') || strcmp(version, 'sims')
         noise = noisegen(stdsize, nsubj, FWHM, 3 );
         data = zeros([nsubj, stdsize]);
