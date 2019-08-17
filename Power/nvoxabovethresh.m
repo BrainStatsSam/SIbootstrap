@@ -71,7 +71,7 @@ end
 
 avnvox = nvox/nsims;
 
-% save(saveloc, 'nvox', 'avnvox')
+save(saveloc, 'nvox', 'avnvox')
 
 end
 
