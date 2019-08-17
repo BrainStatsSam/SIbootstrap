@@ -49,8 +49,11 @@ else
 end
 
 nvox = 0;
+sim = 0;
+save(saveloc, 'nvox', 'sim')
 for sim = 1:nsims
     sim
+    load(saveloc)
     if strcmp(version, 'Sims') || strcmp(version, 'sims')
         noise = noisegen(stdsize, nsubj, FWHM, 3 );
         data = zeros([nsubj, stdsize]);
@@ -67,6 +70,7 @@ for sim = 1:nsims
     onesamplet = mvtstat(data);
     abovethresh = (onesamplet > threshold);
     nvox = nvox + sum(abovethresh(:));
+    save(saveloc, 'nvox', 'sim')
 end
 
 avnvox = nvox/nsims;
