@@ -4,6 +4,7 @@ function [ nvox, avnvox ] = nvoxabovethresh( nsubj, version, nsims )
 %--------------------------------------------------------------------------
 % ARGUMENTS
 % nsubj     the number of subjects
+% version   if = 'sims' then runs the simulations else runs the real data.
 % nsims     the number of simulations
 %--------------------------------------------------------------------------
 % OUTPUT
@@ -43,7 +44,8 @@ if strcmp(version, 'Sims') || strcmp(version, 'sims')
     std_dev = 1;
     saveloc = [SIloc,'Simulations/Power/nvoxstore/',num2str(nsubj)];
 else
-    saveloc = [SIloc,'Results/PowerResults/',version,'_',num2str(nsubj)]; %add version into this string!! :)
+    saveloc = [SIloc,'Results/PowerResults/',num2str(nsubj)];
+%     saveloc = [SIloc,'Results/PowerResults/',version,'_',num2str(nsubj)]; %add version into this string!! :)
     nsims = floor(4940/nsubj);
 %     nsims = 1;
     mask = imgload('MNImask');
@@ -78,7 +80,7 @@ end
 
 avnvox = nvox/nsims;
 
-save(saveloc, 'nvox', 'avnvox')
+save(saveloc, 'nvox', 'avnvox', 'sim')
 
 end
 
