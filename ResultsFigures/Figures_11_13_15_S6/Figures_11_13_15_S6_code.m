@@ -1,4 +1,4 @@
-%% Code to generate Figure 8.
+%% Code to generate Figures 11, 13, 15 and S6.
 % export_fig is required in order to save the images. 
 
 thresh = 1;

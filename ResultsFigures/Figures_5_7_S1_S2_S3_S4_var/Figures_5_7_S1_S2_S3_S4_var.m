@@ -1,4 +1,4 @@
-%% Code to generate the variance simulation figures for Reviewer 2
+%% Code to generate the variance simulation parts of Figures: 5,7,S1,S2,S3 and S4
 % export_fig is required in order to save the images. 
 
 global def_col %Need to load startup.m for this to work.

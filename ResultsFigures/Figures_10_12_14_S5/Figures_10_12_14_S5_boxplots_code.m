@@ -1,4 +1,4 @@
-%% Code to generate bias boxplots for Figures 9, 11, 13 and S3
+%% Code to generate bias boxplots for Figures 10, 12, 14 and S5
 % export_fig is required in order to save the images. 
 
 for type = {'tstat'}

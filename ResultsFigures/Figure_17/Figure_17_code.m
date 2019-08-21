@@ -7,7 +7,7 @@ if isempty(SIbootstrap_loc) || isempty(def_col)
     error('SIbootstrap_loc and def_col must be defined by running startup.m')
 end
 
-save_loc = [SIbootstrap_loc, 'ResultsFigures/Figure_16/'];
+save_loc = [SIbootstrap_loc, 'ResultsFigures/Figure_17/'];
 
 %%
 clf
@@ -31,4 +31,4 @@ ylabel('Corresponding Power (%)')
 title('Power versus Sample Size')
 legend('Circular', 'Bootstrap Corrected', 'Location', 'SouthEast')
 
-export_fig([save_loc, 'Figure_16.pdf'], '-transparent')
+export_fig([save_loc, 'Figure_17.pdf'], '-transparent')

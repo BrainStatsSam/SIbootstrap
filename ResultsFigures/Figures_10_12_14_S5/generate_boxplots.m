@@ -58,18 +58,18 @@ boxplot_mod(data, group_vector, 'symbol', '');
 set(gca,'xticklabel',{'Circular','Data-Splitting','Bootstrap','Circular','Data-Splitting','Bootstrap','Circular','Data-Splitting','Bootstrap'})
 
 if strcmp(type, 'tstat')
-    corresponding_figure = '9';
+    corresponding_figure = '10';
     vert_placement = -0.77;
 elseif strcmp(type, 't4lm')
-    corresponding_figure = '11';
+    corresponding_figure = '12';
     vert_placement = -19.5/100;
 elseif strcmp(type, 'mean')
-    corresponding_figure = 'S3';
+    corresponding_figure = 'S5';
     vert_placement = -50.5/100;
 end
 
 if strcmp(type, 'vbmagesex')
-    corresponding_figure = '13';
+    corresponding_figure = '14';
     vert_placement = -0.16;
     text(1.67,vert_placement, 'N = 50', 'FontSize', 20)
     text(1.67+2.9,vert_placement, 'N = 100', 'FontSize', 20)
@@ -119,7 +119,7 @@ ylabel(label_for_y_axis, 'FontSize', 20)
 h = gca;
 h.XRuler.TickLength = 0;
 
-export_fig([SIbootstrap_loc, 'ResultsFigures/Figures_9_11_13_S3/Figure_', corresponding_figure,'_bias.pdf'], '-transparent')
+export_fig([SIbootstrap_loc, 'ResultsFigures/Figures_10_12_14_S5/Figure_', corresponding_figure,'_bias.pdf'], '-transparent')
 
 end
 

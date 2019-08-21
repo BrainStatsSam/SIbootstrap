@@ -1,4 +1,4 @@
-%% Code to generate the barplots for Figures 9, 11, 13 and S3
+%% Code to generate the barplots for Figures 10, 12, 14 and S5
 % export_fig is required in order to save the images. 
 
 global def_col %Need to load startup.m for this to work.
@@ -7,11 +7,11 @@ if isempty(SIbootstrap_loc) || isempty(def_col)
     error('SIbootstrap_loc and def_col must be defined by running startup.m')
 end
 
-save_loc = [SIbootstrap_loc, 'ResultsFigures/Figures_9_11_13_S3/'];
+save_loc = [SIbootstrap_loc, 'ResultsFigures/Figures_10_12_14_S5/'];
 
 %%
 type = 'mean';
-corresponding_figure = 'S3';
+corresponding_figure = 'S5';
 pos_vector = [0,550,1500,600];
 mse_plots = zeros(3,3);
 var_plots = zeros(3,3);
@@ -74,7 +74,7 @@ export_fig([save_loc, 'Figure_', corresponding_figure, '_std.pdf'], '-transparen
 
 %%
 type = 'tstat';
-corresponding_figure = '9';
+corresponding_figure = '10';
 
 pos_vector = [0,550,1500,600];
 mse_plots = zeros(3,3);
@@ -148,7 +148,7 @@ export_fig([save_loc, 'Figure_', corresponding_figure, '_std.pdf'], '-transparen
 
 %%
 type = 't4lm';
-corresponding_figure = '11';
+corresponding_figure = '12';
 
 mse_plots = zeros(3,3);
 var_plots = zeros(3,3);
@@ -209,7 +209,7 @@ export_fig([save_loc, 'Figure_', corresponding_figure, '_std.pdf'], '-transparen
 
 %%
 type = 'vbmagesex';
-corresponding_figure = '13';
+corresponding_figure = '14';
 pos_vector = [0,550,1500,600];
 
 mse_plots = zeros(3,3);
